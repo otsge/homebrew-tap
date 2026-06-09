@@ -224,7 +224,6 @@ jobs:
           runner: ${{ matrix.os }}
           bottles-directory: ${{ env.BOTTLES_DIR }}
           logs-directory: ${{ env.BOTTLES_DIR }}/logs
-
   label-pr:
     needs: test-bot
     if: ${{ github.event_name == 'pull_request' }}
