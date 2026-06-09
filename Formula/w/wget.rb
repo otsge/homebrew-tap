@@ -5,6 +5,17 @@ class Wget < Formula
   sha256 "766e48423e79359ea31e41db9e5c289675947a7fcf2efdcedb726ac9d0da3784"
   license "GPL-3.0-or-later"
 
+  bottle do
+    root_url "https://ghcr.io/v2/otsge/tap"
+    sha256 arm64_tahoe:   "90f1a9a8f570f02d53482d2f61b344da44de232519cb77a8879a9c198c401b11"
+    sha256 arm64_sequoia: "952aec59f1ebcb244630d1ba58bf1dca8b4aae9bb3d718d2ba6b17261ee9e0d9"
+    sha256 arm64_sonoma:  "303129ec1e45c83c4ca24e71259fa9f387ed43f3e1e894c45a921aa3a80cb6f5"
+    sha256 tahoe:         "3b50b274a540c6eed91787c8ec5496b61765e6033fb3b54a995d8628ec5b8a9a"
+    sha256 sequoia:       "a123ed48fefdabda19debf4dad2e1c233221b3634a372d37d1eb24649c20bae9"
+    sha256 arm64_linux:   "de73b838241dd31cb086ed4222f633b25ba42cefcec3099bf9ccae9b3f75db3b"
+    sha256 x86_64_linux:  "329904ab18d227d24ff938e547afe129d72fe95662c43c01d646160c6ee1235e"
+  end
+
   head do
     url "https://gitlab.com/gnuwget/wget.git", branch: "master"
 
