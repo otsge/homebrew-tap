@@ -1,0 +1,238 @@
+name: CI
+
+on:
+  # push:
+  #   branches:
+  #     - main
+  #     - master
+  #   paths:
+  #     - 'Formula/**'
+  pull_request:
+    paths:
+      - 'Formula/**'
+
+env:
+  BOTTLES_DIR: ${{ github.workspace }}/bottles
+  HOMEBREW_DEVELOPER: 1
+  HOMEBREW_GITHUB_ACTIONS: 1
+  HOMEBREW_NO_ANALYTICS: 1
+  HOMEBREW_NO_AUTO_UPDATE: 1
+  HOMEBREW_NO_INSTALL_FROM_API: 1
+  HOMEBREW_ENFORCE_SBOM: 1
+  HOMEBREW_NO_BUILD_ERROR_ISSUES: 1
+  GH_REPO: ${{ github.repository }}
+  GH_NO_UPDATE_NOTIFIER: 1
+  GH_PROMPT_DISABLED: 1
+
+defaults:
+  run:
+    shell: bash -xeuo pipefail {0}
+
+concurrency:
+  group: "tests-${{ github.ref }}"
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+permissions:
+  contents: read
+
+jobs:
+  changed_files:
+    outputs:
+      all-changed-files: ${{ steps.changed-files.outputs.all_changed_files }}
+      added-files: ${{ steps.changed-files.outputs.added_files }}
+      modified-files: ${{ steps.changed-files.outputs.modified_files }}
+      added-files-count: ${{ steps.changed-files.outputs.added_files_count }}
+      modified-files-count: ${{ steps.changed-files.outputs.modified_files_count }}
+      fuse-files: ${{ steps.file-deps.outputs.fuse }}
+      xcode26-files: ${{ steps.file-deps.outputs.xcode26 }}
+    runs-on: ubuntu-latest
+    name: Test changed-files
+    permissions:
+      pull-requests: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@main
+        with:
+          fetch-depth: 0
+
+      - name: Get changed files
+        id: changed-files
+        uses: tj-actions/changed-files@main
+        with:
+          files: Formula/**
+
+      - name: List all changed files
+        id: file-deps
+        continue-on-error: true
+        if: ${{ steps.changed-files.outputs.added_files_count > 0 || steps.changed-files.outputs.modified_files_count > 0 }}
+        env:
+          ALL_CHANGED_FILES: ${{ steps.changed-files.outputs.added_files }} ${{ steps.changed-files.outputs.modified_files }}
+        run: |
+          echo "${ALL_CHANGED_FILES}"
+          for file in ${ALL_CHANGED_FILES}; do
+            grep -qls 'fuse' "$file" && echo "fuse=True" >> "${GITHUB_OUTPUT}" || true
+            grep -qls 'xcode: \["26.0"' "$file" && echo "xcode26=True" >> "${GITHUB_OUTPUT}" || true
+          done
+  test-bot:
+    needs: changed_files
+    if: ${{ github.event_name == 'pull_request' && (needs.changed_files.outputs.added-files-count > 0 || needs.changed_files.outputs.modified-files-count > 0) }}
+    continue-on-error: ${{ github.event_name == 'pull_request' && contains(github.event.pull_request.labels.*.name, 'CI-no-fail-fast-syntax') }}
+    strategy:
+      matrix:
+        os: [ macos-14, macos-15, macos-15-intel, macos-26, macos-26-intel ]
+        include:
+          - os: ubuntu-24.04
+            container: ghcr.io/homebrew/ubuntu24.04:main
+          - os: ubuntu-24.04-arm
+            container: ghcr.io/homebrew/ubuntu24.04:main
+    runs-on: ${{ matrix.os }}
+    container: ${{ matrix.container }}
+    permissions:
+      actions: read
+      checks: read
+      contents: read
+      packages: read
+      pull-requests: read
+    steps:
+      - name: Set up Homebrew
+        id: set-up-homebrew
+        uses: Homebrew/actions/setup-homebrew@main
+        with:
+          core: false
+          cask: false
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Cleanup runner
+        run: brew test-bot --only-cleanup-before
+
+      - name: Get cache key
+        id: setup-cache
+        run: |
+          cache_key_prefix="${RUNNER_OS}"
+          if [ "${RUNNER_OS}" == "macOS" ]
+          then
+            macos_full_version="$(sw_vers -productVersion)"
+            macos_version="${macos_full_version%%.*}"
+            arch="$(uname -m)"
+            cache_key_prefix="${macos_version}-${arch}"
+          elif [ "${RUNNER_OS}" == "Linux" ]
+          then
+            arch="$(uname -m)"
+            cache_key_prefix="Linux-${arch}"
+          fi
+          {
+          echo "prefix=${cache_key_prefix}"
+          echo "macos_version=${macos_version:-}"
+          echo "arch=${arch:-}"
+          } >> "${GITHUB_OUTPUT}"
+
+      - name: Cache Homebrew Bundler RubyGems
+        uses: actions/cache@main
+        with:
+          path: ${{ steps.set-up-homebrew.outputs.gems-path }}
+          key: ${{ steps.setup-cache.outputs.prefix }}-rubygems-${{ steps.set-up-homebrew.outputs.gems-hash }}
+          restore-keys: ${{ steps.setup-cache.outputs.prefix }}-rubygems-
+
+      - name: Setup Homebrew test environment
+        run: |
+          printf '\n<details><summary>brew test-bot --only-setup</summary>\n<p>\n\n' >> "$GITHUB_STEP_SUMMARY"
+          printf '```\n' >> "${GITHUB_STEP_SUMMARY}"
+          HOMEBREW_NO_COLOR=1 brew test-bot --only-setup | tee -a "${GITHUB_STEP_SUMMARY}"
+          printf '```\n' >> "${GITHUB_STEP_SUMMARY}"
+          printf '\n</p>\n</details>\n' >> "$GITHUB_STEP_SUMMARY"
+
+      - run: brew test-bot --only-tap-syntax
+
+      - name: Install FUSE-T
+        if: ${{ needs.changed_files.outputs.fuse-files == 'True' && runner.os == 'macOS' }}
+        run: |
+          brew tap otsge/keg
+          brew trust otsge/keg
+          brew install --cask otsge/keg/fuse-t
+
+      - name: Base64-encode GITHUB_TOKEN for HOMEBREW_DOCKER_REGISTRY_TOKEN
+        id: base64-encode
+        if: github.event_name == 'pull_request'
+        env:
+          TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          base64_token=$(echo -n "${TOKEN}" | base64 | tr -d "\n")
+          echo "::add-mask::${base64_token}"
+          echo "token=${base64_token}" >> "${GITHUB_OUTPUT}"
+
+      - name: Set up bottles directory
+        id: setup-bottles
+        run: |
+          rm -rvf "${BOTTLES_DIR:?}"
+          mkdir "${BOTTLES_DIR:?}"
+
+          if [[ "$RUNNER_OS" = Linux ]]; then
+            bottle_specifier="{ubuntu,linux}"
+          else
+            bottle_specifier="{macos-${MACOS_VERSION},${MACOS_VERSION}-${ARCH}}"
+          fi
+
+          echo "bottle_specifier=$bottle_specifier" >> "$GITHUB_OUTPUT"
+        env:
+          MACOS_VERSION: ${{ steps.setup-cache.outputs.macos_version }}
+          ARCH: ${{ steps.setup-cache.outputs.arch }}
+
+      - name: Build bottle for ${{ matrix.os }}
+        id: build-bottle
+        if: github.event_name == 'pull_request'
+        working-directory: ${{ env.BOTTLES_DIR }}
+        env:
+          HOMEBREW_DOCKER_REGISTRY_TOKEN: ${{ steps.base64-encode.outputs.token }}
+          IS_CURL: ${{ case(contains(github.head_ref, 'curl'), 'TRUE', 'FALSE') }}
+          MACOS_VERSION: ${{ steps.setup-cache.outputs.macos_version }}
+          XCODE_26: ${{ (needs.changed_files.outputs.xcode26-files && 'TRUE') || 'FALSE' }}
+        run:  |
+          if [[ "${IS_CURL}" == "TRUE" && "${{ runner.os }}" == "macOS" ]]
+          then
+            LC_ALL=C LANG=C sed -i '' 's#depends_on "libssh2"#depends_on "otsge/draft/libssh2"#g' "$(brew --taps)"/homebrew/homebrew-core/Formula/*/*.rb
+          elif [[ "${IS_CURL}" == "TRUE" && "${{ runner.os }}" == "Linux" ]]
+          then
+            LC_ALL=C LANG=C sed -i 's!uses_from_macos "curl"!# uses_from_macos "curl"!g' "$(brew --taps)"/homebrew/homebrew-core/Formula/r/rust.rb
+            LC_ALL=C LANG=C sed -i 's#depends_on "libssh2"#depends_on "otsge/draft/libssh2"#g' "$(brew --taps)"/homebrew/homebrew-core/Formula/*/*.rb
+          fi
+          if [[ "${{ runner.os }}" == "macOS" && "${{ runner.arch }}" == "X64" ]]
+          then
+            cp /Users/runner/work/homebrew-tap/homebrew-tap/.github/workflows/files/tb_formulae "$(brew --prefix)/Homebrew/Library/Homebrew/test_bot/formulae.rb"
+          fi
+          if [[ "${{ runner.os }}" == "macOS" && "${MACOS_VERSION}" == "15" && "${{runner.arch }}" == "ARM64" && "${XCODE_26}" == "TRUE" ]]
+          then
+            [[ "$(which xcodes)" ]] || brew tap xcodesorg/made && brew trust xcodesorg/made && brew install xcodesorg/made/xcodes
+            xcodes install 26.3
+            xcodes select 26.3
+          fi
+          pushd "$(brew --repository)"
+          s="$(git status --porcelain)"
+          if [[ -n "$s" ]]
+          then
+            git add . && git commit --amend --no-edit
+          fi
+          popd
+          brew tap otsge/draft
+          brew trust otsge/draft
+          brew test-bot --only-formulae --skip-online-checks --skip-dependents --root-url=https://ghcr.io/v2/otsge/tap
+
+      - name: Post-build steps
+        id: upload-bottles
+        if: always() && github.event_name == 'pull_request'
+        uses: Homebrew/actions/post-build@main
+        with:
+          runner: ${{ matrix.os }}
+          bottles-directory: ${{ env.BOTTLES_DIR }}
+          logs-directory: ${{ env.BOTTLES_DIR }}/logs
+
+  label-pr:
+    needs: test-bot
+    if: ${{ github.event_name == 'pull_request' }}
+    runs-on: ubuntu-slim
+    steps:
+      - name: Label the Pull Request
+        id: label-the-pr
+        env:
+          GH_TOKEN: ${{ secrets.AUTOBUMP_TOKEN }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+        run: gh pr edit "${PR_NUMBER}" --add-label "pr-pull" --repo "${GITHUB_REPOSITORY}"
