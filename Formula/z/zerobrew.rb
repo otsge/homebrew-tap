@@ -8,13 +8,13 @@ class Zerobrew < Formula
 
   bottle do
     root_url "https://ghcr.io/v2/otsge/tap"
-    sha256 cellar: :any_skip_relocation, arm64_tahoe:   "028508f44b481d054b64849e3e29f387e608ffa99275f273cd7ac8fc9eed2499"
-    sha256 cellar: :any_skip_relocation, arm64_sequoia: "470143b40a7a3058148af7b20cdc55f6e925ae4eea971847a7048c068f669e79"
-    sha256 cellar: :any_skip_relocation, arm64_sonoma:  "c90e8f669d98fa1ac30dd7bdcf9c916b72cf4b1db362b640540ae9055b559e72"
-    sha256 cellar: :any_skip_relocation, tahoe:         "58238e697a25f883fbb6fedead52856bcf2089b25a80eb9100d29781197fa43f"
-    sha256 cellar: :any_skip_relocation, sequoia:       "929c9ebaabef24a0e68daa0ff96d016a3dd542a0105ae2c137d92213c821927a"
-    sha256 cellar: :any,                 arm64_linux:   "95c44f530afda89f3586ddaea5ac0de6ca882bd044ebb802f55af5540d6e7875"
-    sha256 cellar: :any,                 x86_64_linux:  "f433bfb5ba02d9929dce1d1f6dd835530743b85ee0ab988024dc8a0d39bcc101"
+    sha256 cellar: :any_skip_relocation, arm64_tahoe:   "4c320fbd45d71319440928571effdfd74706e7ccca1b7eac5c2b957746b2c092"
+    sha256 cellar: :any_skip_relocation, arm64_sequoia: "7da7354fb90026c5eddd879fb2df6baf6c497796d5287ae4bc3332bf19621545"
+    sha256 cellar: :any_skip_relocation, arm64_sonoma:  "9b263868be69c5ee6a57697d7084476d2322c8f4b4ea40836fca2c2b082ccef1"
+    sha256 cellar: :any_skip_relocation, tahoe:         "8ebe823d6305eef4744ee8c6b4fd64d21cdc825fb958a1a07221dad0635fd053"
+    sha256 cellar: :any_skip_relocation, sequoia:       "4c41da3dcdafaf08d91420463c755224500e6a2de704bf8fafe48e2a9fb33529"
+    sha256 cellar: :any,                 arm64_linux:   "6993528ca9de6716bedbc6c7b7f9aedbfc8961e1034fb1c990bdb5d0c021fb19"
+    sha256 cellar: :any,                 x86_64_linux:  "045d2a1e183fa3601f1c39d48aebd143d19906849a8be874fcbc6c58965a144b"
   end
 
   depends_on "rust" => :build
