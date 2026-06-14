@@ -11,6 +11,15 @@ class QbittorrentNox < Formula
     regex(/^v?(\d+(?:[._]\d+)+)$/i)
   end
 
+  bottle do
+    root_url "https://ghcr.io/v2/otsge/tap"
+    sha256 cellar: :any, arm64_tahoe:   "17167d91941604eda57fcafe720bd2e129b9233feb3fe34a89c8a522f7fe8f0c"
+    sha256 cellar: :any, arm64_sequoia: "190a64a379988fd647a660b6861874ca193c6e3bf9d44f7cbf97441090fa67b2"
+    sha256 cellar: :any, arm64_sonoma:  "591e440747115320cdb9792f4e0d0ee9169cfaefd515fdc7718da8c1bfd25b3c"
+    sha256 cellar: :any, tahoe:         "16aa1e2fd5c105b81fe563ab64cb5f2001ad45f6a8c44c845088ca1497a82511"
+    sha256 cellar: :any, sequoia:       "37a47c8f2df85e1596ab8ccbaa1caf6c524d0471dc8105a8cc934459fab4c452"
+  end
+
   depends_on "boost" => :build
   depends_on "cmake" => :build
   depends_on "ninja" => :build
