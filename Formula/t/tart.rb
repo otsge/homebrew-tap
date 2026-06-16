@@ -6,6 +6,14 @@ class Tart < Formula
   license "FSL-1.1-ALv2"
   head "https://github.com/openai/tart.git", branch: "main"
 
+  bottle do
+    root_url "https://ghcr.io/v2/otsge/tap"
+    sha256 cellar: :any_skip_relocation, arm64_tahoe:   "0d1f032dc91540be27a8f49bc14198c2345a767874a0b887adadfec9f2530029"
+    sha256 cellar: :any_skip_relocation, arm64_sequoia: "e31b0027311eb11a6e7d0cf75b7e282c6d619660519758f2770162475772301e"
+    sha256 cellar: :any_skip_relocation, tahoe:         "47c9ce74de1b8d83e557fa31a4b9244e129f86eb80d6a83e873fec9bae68b24e"
+    sha256 cellar: :any_skip_relocation, sequoia:       "12f79c7d345eaddee3c810532fdc9407e55116bdbbb5117b0ef004c809c7e2cc"
+  end
+
   depends_on xcode: ["16.3", :build]
   depends_on :macos
 
