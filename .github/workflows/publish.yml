@@ -38,7 +38,8 @@ jobs:
           cask: false
           token: ${{ secrets.GITHUB_TOKEN }}
 
-      - id: get-run-id
+      - name: Get the run ID of the tests workflow
+        id: get-run-id
         env:
           GH_TOKEN: ${{ secrets.AUTOBUMP_TOKEN }}
         run: |
@@ -79,7 +80,7 @@ jobs:
           fi
           brew tap otsge/draft
           brew trust otsge/draft
-          brew pr-pull --debug --verbose --tap="$GITHUB_REPOSITORY" "$PULL_REQUEST"
+          brew pr-pull --verbose --tap="$GITHUB_REPOSITORY" "$PULL_REQUEST"
 
       - name: Push commits
         uses: Homebrew/actions/git-try-push@main
