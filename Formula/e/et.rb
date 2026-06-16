@@ -21,7 +21,7 @@ class Et < Formula
   depends_on "pkgconf" => :build
 
   depends_on "libsodium"
-  depends_on "otsge/draft/openssl@4"
+  depends_on "openssl@4"
   depends_on "protobuf"
 
   on_linux do
