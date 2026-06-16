@@ -13,17 +13,6 @@ class Curl < Formula
     regex(/href=.*?curl[._-]v?(.*?)\.t/i)
   end
 
-  bottle do
-    root_url "https://ghcr.io/v2/otsge/tap"
-    sha256 cellar: :any, arm64_tahoe:   "1b01ffc6c0b792a619f4a0068138cd7e3fa5f7764f9d99551e42b1a87117cefd"
-    sha256 cellar: :any, arm64_sequoia: "fa9c391273a76f301fea7a5d375c4d4d74d62eb3bc58d19cc715c8ee4383beb4"
-    sha256 cellar: :any, arm64_sonoma:  "883c95697b01fded6346d3b8d072a90805b8ffcfd8d8ca5a2c5b99a947acd0be"
-    sha256 cellar: :any, tahoe:         "7ed98eab564b7cd218b291975dc48c49e87ebb1baba2396bd2ec3d14ac6370c5"
-    sha256 cellar: :any, sequoia:       "fe4e95f602d61f4efbd6f57d97681f798792dbb208d849e8fbeb7dec0cf42907"
-    sha256 cellar: :any, arm64_linux:   "ee3eec32c746b6e6735f3f07a81c08b9e8d522260b5b96d443ca9256ebba78b9"
-    sha256 cellar: :any, x86_64_linux:  "da790372f73ea0c1d96379f9cecb23344185b69a3bbb47690fd0978688c52df8"
-  end
-
   head do
     url "https://github.com/curl/curl.git", branch: "master"
 
@@ -39,9 +28,9 @@ class Curl < Formula
   depends_on "c-ares"
   depends_on "libnghttp2"
   depends_on "libnghttp3"
-  depends_on "otsge/draft/libngtcp2"
-  depends_on "otsge/draft/libssh2"
-  depends_on "otsge/draft/openssl@4"
+  depends_on "libngtcp2"
+  depends_on "libssh2"
+  depends_on "openssl@3"
   depends_on "zstd"
 
   uses_from_macos "krb5"
@@ -69,7 +58,7 @@ class Curl < Formula
 
     args = %W[
       --disable-silent-rules
-      --with-openssl=#{Formula["openssl@4"].opt_prefix}
+      --with-openssl=#{Formula["openssl@3"].opt_prefix}
       --without-ca-bundle
       --without-ca-path
       --with-ca-fallback
@@ -81,7 +70,6 @@ class Curl < Formula
       --with-zsh-functions-dir=#{zsh_completion}
       --with-fish-functions-dir=#{fish_completion}
       --enable-ares
-      --enable-ech
       --enable-httpsrr
       --enable-threaded-resolver
     ]
@@ -125,7 +113,7 @@ class Curl < Formula
 
     # Check dependencies linked correctly
     curl_features = shell_output("#{bin}/curl-config --features").split("\n")
-    %w[brotli ECH GSS-API HTTP2 HTTP3 HTTPSRR IDN libz SSL zstd].each do |feature|
+    %w[brotli GSS-API HTTP2 HTTP3 HTTPSRR IDN libz SSL zstd].each do |feature|
       assert_includes curl_features, feature
     end
     curl_protocols = shell_output("#{bin}/curl-config --protocols").split("\n")
@@ -136,9 +124,5 @@ class Curl < Formula
     system libexec/"mk-ca-bundle.pl", "test.pem"
     assert_path_exists testpath/"test.pem"
     assert_path_exists testpath/"certdata.txt"
-
-    # ENV["PKG_CONFIG_PATH"] = lib/"pkgconfig"
-    # ENV.append_path "PKG_CONFIG_PATH", Formula["zlib-ng-compat"].lib/"pkgconfig" unless OS.mac?
-    # system "pkgconf", "--cflags", "libcurl"
   end
 end

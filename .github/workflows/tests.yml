@@ -43,6 +43,8 @@ jobs:
       modified-files: ${{ steps.changed-files.outputs.modified_files }}
       added-files-count: ${{ steps.changed-files.outputs.added_files_count }}
       modified-files-count: ${{ steps.changed-files.outputs.modified_files_count }}
+      curl-files: ${{ steps.file-deps.outputs.curl }}
+      openssl4-files: ${{ steps.file-deps.outputs.openssl4 }}
       fuse-files: ${{ steps.file-deps.outputs.fuse }}
       xcode26-files: ${{ steps.file-deps.outputs.xcode26 }}
     runs-on: ubuntu-latest
@@ -72,6 +74,8 @@ jobs:
           for file in ${ALL_CHANGED_FILES}; do
             grep -qls 'fuse' "$file" && echo "fuse=True" >> "${GITHUB_OUTPUT}" || true
             grep -qls 'xcode: \["26.0"' "$file" && echo "xcode26=True" >> "${GITHUB_OUTPUT}" || true
+            grep -qls 'class Curl' "$file" && echo "curl=True" >> "${GITHUB_OUTPUT}" || true
+            grep -qls 'class.*Openssl4' "$file" && echo "openssl4=True" >> "${GITHUB_OUTPUT}" || true
           done
   test-bot:
     needs: changed_files
@@ -98,7 +102,7 @@ jobs:
         id: set-up-homebrew
         uses: Homebrew/actions/setup-homebrew@main
         with:
-          core: false
+          core: true
           cask: false
           token: ${{ secrets.GITHUB_TOKEN }}
 
@@ -183,25 +187,29 @@ jobs:
         working-directory: ${{ env.BOTTLES_DIR }}
         env:
           HOMEBREW_DOCKER_REGISTRY_TOKEN: ${{ steps.base64-encode.outputs.token }}
-          IS_CURL: ${{ case(contains(github.head_ref, 'curl'), 'TRUE', 'FALSE') }}
+          IS_CURL: ${{ (needs.changed_files.outputs.curl-files && 'TRUE') || 'FALSE' }}
           MACOS_VERSION: ${{ steps.setup-cache.outputs.macos_version }}
+          OPENSSL_4: ${{ (needs.changed_files.outputs.openssl4-files && 'TRUE') || 'FALSE' }}
           XCODE_26: ${{ (needs.changed_files.outputs.xcode26-files && 'TRUE') || 'FALSE' }}
         run:  |
-          if [[ "${IS_CURL}" == "TRUE" && "${{ runner.os }}" == "macOS" ]]
+          if [[ "${IS_CURL}" == "TRUE" && "${OPENSSL_4}" == "TRUE" && "${{ runner.os }}" == "macOS" ]]
           then
-            LC_ALL=C LANG=C sed -i '' 's#depends_on "libssh2"#depends_on "otsge/draft/libssh2"#g' "$(brew --taps)"/homebrew/homebrew-core/Formula/*/*.rb
+            sed -i '' 's#depends_on "libssh2"#depends_on "otsge/draft/libssh2"#g' "$(brew --repository homebrew/core)"/Formula/*/*.rb
           elif [[ "${IS_CURL}" == "TRUE" && "${{ runner.os }}" == "Linux" ]]
           then
-            LC_ALL=C LANG=C sed -i 's!uses_from_macos "curl"!# uses_from_macos "curl"!g' "$(brew --taps)"/homebrew/homebrew-core/Formula/r/rust.rb
-            LC_ALL=C LANG=C sed -i 's#depends_on "libssh2"#depends_on "otsge/draft/libssh2"#g' "$(brew --taps)"/homebrew/homebrew-core/Formula/*/*.rb
+            sed -i 's!uses_from_macos "curl"!# uses_from_macos "curl"!g' "$(brew --repository homebrew/core)"/Formula/r/rust.rb
+          fi
+          if [[ "${IS_CURL}" == "TRUE" && "${OPENSSL_4}" == "TRUE" && "${{ runner.os }}" == "Linux" ]]
+          then
+            sed -i 's#depends_on "libssh2"#depends_on "otsge/draft/libssh2"#g' "$(brew --repository homebrew/core)"/Formula/*/*.rb
           fi
           if [[ "${{ runner.os }}" == "macOS" && "${{ runner.arch }}" == "X64" ]]
           then
-            cp /Users/runner/work/homebrew-tap/homebrew-tap/.github/workflows/files/tb_formulae "$(brew --prefix)/Homebrew/Library/Homebrew/test_bot/formulae.rb"
+            cp /Users/runner/work/homebrew-tap/homebrew-tap/.github/workflows/files/tb_formulae "$(brew --prefix)"/Homebrew/Library/Homebrew/test_bot/formulae.rb
           fi
-          if [[ "${{ runner.os }}" == "macOS" && "${MACOS_VERSION}" == "15" && "${{runner.arch }}" == "ARM64" && "${XCODE_26}" == "TRUE" ]]
+          if [[ "${XCODE_26}" == "TRUE" && "${{ runner.os }}" == "macOS" && "${MACOS_VERSION}" == "15" && "${{runner.arch }}" == "ARM64" ]]
           then
-            [[ "$(which xcodes)" ]] || brew tap xcodesorg/made && brew trust xcodesorg/made && brew install xcodesorg/made/xcodes
+            brew tap xcodesorg/made && brew trust xcodesorg/made && brew install xcodesorg/made/xcodes
             xcodes install 26.3
             xcodes select 26.3
           fi
