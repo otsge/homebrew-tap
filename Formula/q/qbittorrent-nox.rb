@@ -51,12 +51,16 @@ class QbittorrentNox < Formula
       -GNinja
     ]
 
-    system "cmake", "-S", ".", "-B", "build", *std_cmake_args, *args
+    system "cmake", "-S", ".", "-B", "build", *args, *std_cmake_args(install_prefix: libexec)
     system "cmake", "--build", "build", "--target", "qbt_update_translations"
     system "cmake", "--build", "build"
     system "strip", "build/qbittorrent-nox.app/Contents/MacOS/qbittorrent-nox"
     system "cmake", "--install", "build"
-    bin.install_symlink "#{prefix}/qbittorrent-nox.app/Contents/MacOS/qbittorrent-nox"
+    bin.write_exec_script "#{libexec}/qbittorrent-nox.app/Contents/MacOS/qbittorrent-nox"
+  end
+
+  def post_install
+    system "xattr", "-cr", libexec.to_s
   end
 
   service do
@@ -65,6 +69,6 @@ class QbittorrentNox < Formula
   end
 
   test do
-    assert_predicate prefix/"qbittorrent-nox.app/Contents/MacOS/qbittorrent-nox", :executable?
+    assert_predicate libexec/"qbittorrent-nox.app/Contents/MacOS/qbittorrent-nox", :executable?
   end
 end
