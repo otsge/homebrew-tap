@@ -5,6 +5,17 @@ class Aria2Openssl4 < Formula
   sha256 "60a420ad7085eb616cb6e2bdf0a7206d68ff3d37fb5a956dc44242eb2f79b66b"
   license "GPL-2.0-or-later"
 
+  bottle do
+    root_url "https://ghcr.io/v2/otsge/tap"
+    sha256 cellar: :any, arm64_tahoe:   "95ece9f0eba77744fdf7a131ba9a6de5161c811fe355312b36db910827beffea"
+    sha256 cellar: :any, arm64_sequoia: "014699add6d2bfc09f08851cbfac923f00a7dc09500bbf65ef3501881c435586"
+    sha256 cellar: :any, arm64_sonoma:  "d0345b462a2ddb9818bc412e14e014f7b200f49fa1c333ea71042647a7d8e04b"
+    sha256 cellar: :any, tahoe:         "c061f705999a56129989fa3ecb0327fbaad96a40f87e6d72790d91d66c87d2f6"
+    sha256 cellar: :any, sequoia:       "161067ccebdbb39b7adc60e067c6be71f6f97e6c222dd95945ab107b5f5e6c13"
+    sha256 cellar: :any, arm64_linux:   "14144d3a6a66530f02e629e0cdf003b7cbc9abc6e8fdadc4dc03add2383f5b3f"
+    sha256 cellar: :any, x86_64_linux:  "ff02c1a425ee3cbf59643b5a98d736934419bc70d53c409283f3b7c195b3c3e3"
+  end
+
   head do
     url "https://github.com/aria2/aria2.git", branch: "master"
 
