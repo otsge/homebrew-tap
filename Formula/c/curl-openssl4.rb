@@ -13,6 +13,17 @@ class CurlOpenssl4 < Formula
     regex(/href=.*?curl[._-]v?(.*?)\.t/i)
   end
 
+  bottle do
+    root_url "https://ghcr.io/v2/otsge/tap"
+    sha256 cellar: :any, arm64_tahoe:   "f204aeb7a1067927535c2d2c0f9aea7515482829917436baaa0412b2ba73898d"
+    sha256 cellar: :any, arm64_sequoia: "d3e51f3546bff63187e6a5a17738d45da8a49d34fab595d26e9085efcfffc642"
+    sha256 cellar: :any, arm64_sonoma:  "eb934ddc2882d914a70f2b2a6a991f438449dd7e3f8fb9045a602310bf06f101"
+    sha256 cellar: :any, tahoe:         "8349e5ae89f6bde7265252b82af03c1251497096a29781252feb619428e48c12"
+    sha256 cellar: :any, sequoia:       "e36b00222d2f36c911729084677deaecd2cc3db9ac0ed3b4402e96e7e7dd7a7f"
+    sha256 cellar: :any, arm64_linux:   "e7cc2d00bd5297f8a5d07ee8ab2927150813c765c3b1cfc54b8146dde4a722d9"
+    sha256 cellar: :any, x86_64_linux:  "48bc4b03b749d79c8e73489ec609a7448ca87666c65d0cf7574f47e69dc7a60e"
+  end
+
   head do
     url "https://github.com/curl/curl.git", branch: "master"
 
