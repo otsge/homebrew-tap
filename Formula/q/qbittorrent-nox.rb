@@ -1,15 +1,10 @@
 class QbittorrentNox < Formula
   desc "Headless peer to peer Bitorrent client"
   homepage "https://www.qbittorrent.org/"
-  url "https://github.com/qbittorrent/qBittorrent/releases/download/release-5.2.1/qbittorrent-5.2.1.tar.xz"
-  sha256 "becd0878802d4bc977381a41d8496d73ef64d543ba576be5f65fd3ad988ee8fe"
+  url "https://github.com/qbittorrent/qBittorrent/archive/refs/tags/release-5.2.2.tar.gz"
+  sha256 "177efdadcd66fa66c473e97ee8ed117ce33ccb9a0a25a0716b62245ce506d1d7"
   license "GPL-2.0-or-later"
   head "https://github.com/qbittorrent/qBittorrent.git", branch: "master"
-
-  livecheck do
-    url :stable
-    regex(/^v?(\d+(?:[._]\d+)+)$/i)
-  end
 
   bottle do
     root_url "https://ghcr.io/v2/otsge/tap"
