@@ -70,7 +70,7 @@ class Curl < Formula
 
     args = %W[
       --disable-silent-rules
-      --with-openssl=#{Formula["openssl@3"].opt_prefix}
+      --with-openssl=#{formula_opt_prefix("openssl@3")}
       --without-ca-bundle
       --without-ca-path
       --with-ca-fallback
@@ -92,7 +92,7 @@ class Curl < Formula
         --with-gssapi
       ]
     else
-      ["--with-gssapi=#{Formula["krb5"].opt_prefix}"]
+      ["--with-gssapi=#{formula_opt_prefix("krb5")}"]
     end
 
     args += if OS.mac? && MacOS.version >= :ventura

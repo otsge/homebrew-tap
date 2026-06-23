@@ -41,8 +41,8 @@ class Sshfs < Formula
       EOS
     end
 
-    ENV["PKG_CONFIG"] = Formula["pkgconf"].opt_bin/"pkg-config"
-    ENV.prepend_path "PATH", Formula["pkgconf"].opt_bin
+    ENV["PKG_CONFIG"] = formula_opt_bin("pkgconf")/"pkg-config"
+    ENV.prepend_path "PATH", formula_opt_bin("pkgconf")
     ENV.prepend_path "PKG_CONFIG_PATH", fuse3_pc.dirname
     ENV.append "LDFLAGS", "-Wl,-rpath,/usr/local/lib"
 
