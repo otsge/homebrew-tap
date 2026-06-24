@@ -15,14 +15,13 @@ class Curl < Formula
 
   bottle do
     root_url "https://ghcr.io/v2/otsge/tap"
-    rebuild 1
-    sha256 cellar: :any, arm64_tahoe:   "52d8ffff1af657b327be855b122cc4807c4cb3a0bfdf2ef02ce7bc9a6266c372"
-    sha256 cellar: :any, arm64_sequoia: "45d66b9d19b83e31aff72e9cfbb7cbf56d861161449f7a038e98b73487d418e8"
-    sha256 cellar: :any, arm64_sonoma:  "c5126bb7904778c52b3dcd9204132bde652100686df71fe9f04cd8682c973aeb"
-    sha256 cellar: :any, tahoe:         "326dafac8368d2ca6912a362af0808dbf5e6c516578bb9563af8c54d68b2e94c"
-    sha256 cellar: :any, sequoia:       "17413dcc020d596b6001a22817f3e51adac1dfffb55fdc921bf3399db95669b4"
-    sha256 cellar: :any, arm64_linux:   "de20d3657ae20af0f3e1724b2764a8b9e898beb1f93372702d4eed9ccc46a0fb"
-    sha256 cellar: :any, x86_64_linux:  "2d64464e537265aeea8d28afa3d934d8ed4cb6e23acd43d5c5820070d5ba6266"
+    sha256 cellar: :any, arm64_tahoe:   "0ad4e68608d8f27aa5260ba1d453e53b587c826d4974b6f80194e2856820a23b"
+    sha256 cellar: :any, arm64_sequoia: "f50cbaac22afcd7f4250545b06505642a9ba7956bc1bdefafd06574cca2fd754"
+    sha256 cellar: :any, arm64_sonoma:  "af0e937dd45d7dd5f70b88816401caed855fb71c35f87695338672ea54d92f90"
+    sha256 cellar: :any, tahoe:         "d1a374f0a29df74dba7138caf3fbd1eb3c7a6a33a23b2b4d81c98b8d72296c14"
+    sha256 cellar: :any, sequoia:       "5813e192a5bd2d8090730cc890e6e46797fb848584e862c4161f4449b3828881"
+    sha256 cellar: :any, arm64_linux:   "50034bd4cbd57de71fe5e3547e4a6fb98b9fd2947ce5bb7313f6675fc4312fa9"
+    sha256 cellar: :any, x86_64_linux:  "c27a16a89f369f906cca2d4b91d670a452d8ba2e000dbffbefffab37b2975ed5"
   end
 
   head do
