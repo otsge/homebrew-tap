@@ -213,6 +213,7 @@ jobs:
             xcodes install 26.3
             xcodes select 26.3
           fi
+          cp ${{ github.workspace }}/.github/workflows/files/formula_cellar_checks "$(brew --repository)/Library/Homebrew/formula_cellar_checks.rb"
           pushd "$(brew --repository)"
           s="$(git status --porcelain)"
           if [[ -n "$s" ]]
