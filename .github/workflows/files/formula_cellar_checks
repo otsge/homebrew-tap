@@ -403,6 +403,7 @@ module FormulaCellarChecks
 
     s = ""
 
+    return if mismatches.present? && !mismatches_expected
     # if mismatches.present? && !mismatches_expected
     #   s += <<~EOS
     #     Binaries built for a non-native architecture were installed into #{formula}'s prefix.
@@ -411,6 +412,7 @@ module FormulaCellarChecks
     #   EOS
     # end
 
+    return if compatible_universal_binaries.present? && !universal_binaries_expected
     # if compatible_universal_binaries.present? && !universal_binaries_expected
     #   s += <<~EOS
     #     Unexpected universal binaries were found.
