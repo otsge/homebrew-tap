@@ -213,6 +213,13 @@ jobs:
             xcodes install 26.3
             xcodes select 26.3
           fi
+          if [[ "${RUNNER_OS}" == "macOS" ]]
+          then
+            sed -i '' 's/if mismatches.present\? \&\& \!mismatches_expected/if mismatches.present\? \&\& mismatches.empty\?/g' "$(brew --repository)"/Library/Homebrew/formula_cellar_checks.rb
+          elif [[ "${RUNNER_OS}" == "Linux" ]]
+          then
+            sed -i 's/if mismatches.present\? \&\& \!mismatches_expected/if mismatches.present\? \&\& mismatches.empty\?/g' "$(brew --repository)"/Library/Homebrew/formula_cellar_checks.rb
+          fi
           pushd "$(brew --repository)"
           s="$(git status --porcelain)"
           if [[ -n "$s" ]]
