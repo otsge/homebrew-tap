@@ -12,6 +12,15 @@ class VdfCli < Formula
     strategy :github_latest
   end
 
+  bottle do
+    root_url "https://ghcr.io/v2/otsge/tap"
+    sha256 cellar: :any, arm64_tahoe:   "cdacaeb4beb820b8124e15377d42b0b26b960cb9342e8ea6df265782ca5363ae"
+    sha256 cellar: :any, arm64_sequoia: "f81848e6657fd5e7a9951e7515861fa613e3aba770e95e2af5d4abd1d6cc4324"
+    sha256 cellar: :any, arm64_sonoma:  "65aef434495601696313be3c8585619e4d643082a358d3ceea81c24d1db92ef6"
+    sha256 cellar: :any, tahoe:         "bb50b4d2f2a0bfe2ad000ac0e153d1809880a10c6bbf3d74d0c691f633724b48"
+    sha256 cellar: :any, sequoia:       "a8682075a55c99fc4a5d5bd8310134672ae0215c84072eae7b3b2c678b69a03a"
+  end
+
   depends_on "dotnet" => :build
   depends_on "brotli"
   depends_on "ffmpeg"
