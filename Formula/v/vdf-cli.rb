@@ -2,8 +2,8 @@ class VdfCli < Formula
   desc "Command-line interface for Video Duplicate Finder"
   homepage "https://github.com/0x90d/videoduplicatefinder"
   url "https://github.com/0x90d/videoduplicatefinder.git",
-      tag:      "4.0.x",
-      revision: "3901eeadc52b1d831df6f155ffedb5a09004aee0"
+      tag:      "4.1.x",
+      revision: "726c83c0da061dcd2e66405f28b995026343ab2c"
   license "CPL-1.0"
   head "https://github.com/0x90d/videoduplicatefinder.git", branch: "master"
 
