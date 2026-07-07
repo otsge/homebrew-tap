@@ -8,11 +8,11 @@ class QbittorrentNox < Formula
 
   bottle do
     root_url "https://ghcr.io/v2/otsge/tap"
-    sha256 cellar: :any, arm64_tahoe:   "b92fd60531b77cc28d91e3cd3c50c14a63088c17e2b96b908108b6f6650f740f"
-    sha256 cellar: :any, arm64_sequoia: "c5c9b6aa3a3161361df7aec9d43a23bfb2286aa36b1a23eb46d3268941e46a01"
-    sha256 cellar: :any, arm64_sonoma:  "b5b97d032edfeb5e9c3cce60664ad6849e0302f3c24810185340a588a17acf8b"
-    sha256 cellar: :any, tahoe:         "6cf6a915014f538af0d90fd2f7508f1ab618cc985657e9e2f5c05fca7f32381c"
-    sha256 cellar: :any, sequoia:       "8c8f7fee909c70a62b1d8038549721989dbd323313932f0aff055d1027dc129b"
+    sha256 cellar: :any, arm64_tahoe:   "faabea717eaebe5b96303dd27140e657a412bb4c579940039f5468396e3d6357"
+    sha256 cellar: :any, arm64_sequoia: "d0de11f61879289b97562e28f052385ad078e84e925843f2e3c4967f83c3e2f9"
+    sha256 cellar: :any, arm64_sonoma:  "1f83641b96eb0ac0c667a7195ba2f7f36358545d6f4f45462108a0925af23eb7"
+    sha256 cellar: :any, tahoe:         "2a7f2efc53abf7b7d914c40f4518c20a54d358a9c2cbed12a10b500041248758"
+    sha256 cellar: :any, sequoia:       "d5d9bb5956b8437359e4a3bec85c2174483b4214c61d7afc03f985efdf363991"
   end
 
   depends_on "boost" => :build
