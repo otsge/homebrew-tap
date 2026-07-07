@@ -14,11 +14,11 @@ class VdfCli < Formula
 
   bottle do
     root_url "https://ghcr.io/v2/otsge/tap"
-    sha256 cellar: :any, arm64_tahoe:   "cdacaeb4beb820b8124e15377d42b0b26b960cb9342e8ea6df265782ca5363ae"
-    sha256 cellar: :any, arm64_sequoia: "f81848e6657fd5e7a9951e7515861fa613e3aba770e95e2af5d4abd1d6cc4324"
-    sha256 cellar: :any, arm64_sonoma:  "65aef434495601696313be3c8585619e4d643082a358d3ceea81c24d1db92ef6"
-    sha256 cellar: :any, tahoe:         "bb50b4d2f2a0bfe2ad000ac0e153d1809880a10c6bbf3d74d0c691f633724b48"
-    sha256 cellar: :any, sequoia:       "a8682075a55c99fc4a5d5bd8310134672ae0215c84072eae7b3b2c678b69a03a"
+    sha256 cellar: :any, arm64_tahoe:   "e370b3fa54fd0d345a5626d1b5922cba4de94a642d76e5b3a424b6fd4447f204"
+    sha256 cellar: :any, arm64_sequoia: "f02494a7ace3d0ee2618cde9f3dcf68f53550ee904d6c2206fef85593575e704"
+    sha256 cellar: :any, arm64_sonoma:  "a9bb90e634bef54bd8e315d8adec9f793d812146763524cc6399c39d316d2e13"
+    sha256 cellar: :any, tahoe:         "65a79e1c7ed055ad068257e358cd8a875dc89b5b91f67915930a924ef8a81a35"
+    sha256 cellar: :any, sequoia:       "2d38646365c6ea4eec4653f1c1cba9109f4f779a5e212ef419455fafc3c0c6fa"
   end
 
   depends_on "dotnet" => :build
