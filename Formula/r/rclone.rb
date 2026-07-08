@@ -8,13 +8,13 @@ class Rclone < Formula
 
   bottle do
     root_url "https://ghcr.io/v2/otsge/tap"
-    sha256 cellar: :any_skip_relocation, arm64_tahoe:   "90c58d3e1a97270fd457ff5bc2b7367170fdfc7ffda19a736beeaef84124a9b4"
-    sha256 cellar: :any_skip_relocation, arm64_sequoia: "fc3f8a0bef99f1bbf2daa30b864f72bc8d08bc73a603337e7b950acc162c2874"
-    sha256 cellar: :any_skip_relocation, arm64_sonoma:  "86c930bae38ace124df7ee71dddd88a4159c13491e2916c4ca1daf591f38226a"
-    sha256 cellar: :any_skip_relocation, tahoe:         "8a8f214b759691e126646104edd86fc6fe51f9ecde40e8e5ca4c74e703975780"
-    sha256 cellar: :any_skip_relocation, sequoia:       "e1fd0332bcc333ac423b3ff20bae2af40ad054661a861a06df1702132e985836"
-    sha256 cellar: :any_skip_relocation, arm64_linux:   "ee7c8abba557cf14b896e7a237edfc07fb379f6da4d7a3a611bf9602589e3124"
-    sha256 cellar: :any,                 x86_64_linux:  "de5aa0f0700b1ddc8b45efba2f5b6c5b1211583f2e4d3ddf41eae44ef9fd0e63"
+    sha256 cellar: :any_skip_relocation, arm64_tahoe:   "c6ce8e7509d208d5a8dceea58bd6d28a206e3b807f170ef1c4d317c6ea422ce0"
+    sha256 cellar: :any_skip_relocation, arm64_sequoia: "e2e79450b4b9050f175d8c7f0bae8525e4828db808a34729f40ebdaa62bf1e1e"
+    sha256 cellar: :any_skip_relocation, arm64_sonoma:  "b8230e037585570ff04d3bd48207b85d4a9ab5b96343a6568c471c4be43c6e48"
+    sha256 cellar: :any_skip_relocation, tahoe:         "b3585e0c294780a450c71d8ed11eb287478666e2b541863bb67f540536c0644d"
+    sha256 cellar: :any_skip_relocation, sequoia:       "53f337e525d3bbda5712c4f0d494b5dff9f0350089db8c0eec64a0a323d99669"
+    sha256 cellar: :any_skip_relocation, arm64_linux:   "f1bb353465ab1986184824606537fb6446b14537e342dfbc41de49cd58218ef5"
+    sha256 cellar: :any,                 x86_64_linux:  "b17d83a3ae6cdd968146ca9da8ae15f4b5f224958d13e2c63167eaba564e799b"
   end
 
   depends_on "go" => :build
