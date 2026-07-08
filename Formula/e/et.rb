@@ -8,14 +8,13 @@ class Et < Formula
 
   bottle do
     root_url "https://ghcr.io/v2/otsge/tap"
-    rebuild 1
-    sha256 cellar: :any, arm64_tahoe:   "21f0379be4fe40ff65bf949ac66d8adc79fc88b68f9354f764f4774d8ad2811b"
-    sha256 cellar: :any, arm64_sequoia: "e9c99911fe8f376eea4968bf7dc68f4238192f0443376ab1ce0adf137b541be6"
-    sha256 cellar: :any, arm64_sonoma:  "6fa4ef6418865936e453a5ac347ed5f15354636605de7791de7db6927a038d9d"
-    sha256 cellar: :any, tahoe:         "af7e7bde45a15ce5a3f7ca261e43eaad3130de732215e3b85830588efcff2347"
-    sha256 cellar: :any, sequoia:       "6d22637170f48558ae180fe9db0da538b968bd6592805ebb9220e9944b585ad6"
-    sha256 cellar: :any, arm64_linux:   "627d50990fac9bfe0cbb3470d2e790e70abfa1361974b3753cbcb08267edfcef"
-    sha256 cellar: :any, x86_64_linux:  "fdb55723a2e23e03bb34b1ca68f995bd268d4dc7167c4bcc6e208647dabb7326"
+    sha256 cellar: :any, arm64_tahoe:   "60edabd678015f5669bf8048ba5c2482af505bb4f41813ac325f517b3e0d5f11"
+    sha256 cellar: :any, arm64_sequoia: "ebb4057a9e049a47ccd74d891147f01294e4ba6112b086ac2f11b5ce6dd0f676"
+    sha256 cellar: :any, arm64_sonoma:  "06e968a445493896300da6b3c8e5a45f2a26c940b2c2ed6f9665d4ce39c8bc67"
+    sha256 cellar: :any, tahoe:         "ac8fe2b441a3505074c5621856dd9d877ac64394f603b985a4dfaaa1b0a3d1e7"
+    sha256 cellar: :any, sequoia:       "a7ffdf53eee3b18f5e516d1434e862525e8dfac66bc3803ad5790bf940841dc7"
+    sha256 cellar: :any, arm64_linux:   "865ee48e1d9e5397a5ac39d2f7aad0f36f502a2ff142bf3198d0fbaee3b19f62"
+    sha256 cellar: :any, x86_64_linux:  "d9d17d3e58d263df567d590cc5b35ad2eabf96a3c4b9cf8a447d8741f39e3a9b"
   end
 
   depends_on "cmake" => :build
