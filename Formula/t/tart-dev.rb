@@ -1,4 +1,4 @@
-class Tart < Formula
+class TartDev < Formula
   desc "Run macOS and Linux VMs on Apple Hardware"
   homepage "https://github.com/openai/tart"
   url "https://github.com/openai/tart/archive/refs/tags/2.33.0.tar.gz"
