@@ -8,10 +8,10 @@ class Tart < Formula
 
   bottle do
     root_url "https://ghcr.io/v2/otsge/tap"
-    sha256 cellar: :any_skip_relocation, arm64_tahoe:   "0d1f032dc91540be27a8f49bc14198c2345a767874a0b887adadfec9f2530029"
-    sha256 cellar: :any_skip_relocation, arm64_sequoia: "e31b0027311eb11a6e7d0cf75b7e282c6d619660519758f2770162475772301e"
-    sha256 cellar: :any_skip_relocation, tahoe:         "47c9ce74de1b8d83e557fa31a4b9244e129f86eb80d6a83e873fec9bae68b24e"
-    sha256 cellar: :any_skip_relocation, sequoia:       "12f79c7d345eaddee3c810532fdc9407e55116bdbbb5117b0ef004c809c7e2cc"
+    sha256 cellar: :any_skip_relocation, arm64_tahoe:   "ac956948fd7a47c0457a9cb4ca18301350df3a8705c441bf6178b89688df8309"
+    sha256 cellar: :any_skip_relocation, arm64_sequoia: "208f7922c8ea1da3881ee4e675820f884fa5b4f6fbd991fb0c1862df0c7f5cc5"
+    sha256 cellar: :any_skip_relocation, tahoe:         "4524d56f27fdbea7a3be04a1af1682207af9fd7bb77deedff9f4218242956f51"
+    sha256 cellar: :any_skip_relocation, sequoia:       "1e31f4c44648c487aa77fc19f6cf142e9f95b514623dbc1126206bae56ca4987"
   end
 
   depends_on xcode: ["16.3", :build]
