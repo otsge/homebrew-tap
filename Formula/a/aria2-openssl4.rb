@@ -28,8 +28,8 @@ class Aria2Openssl4 < Formula
 
   depends_on "pkgconf" => :build
   depends_on "c-ares"
+  depends_on "openssl@4"
   depends_on "otsge/draft/libssh2"
-  depends_on "otsge/draft/openssl@4"
   depends_on "sqlite"
 
   uses_from_macos "libxml2"

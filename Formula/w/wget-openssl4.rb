@@ -29,7 +29,7 @@ class WgetOpenssl4 < Formula
   depends_on "pkgconf" => :build
   depends_on "libidn2"
   depends_on "libmetalink"
-  depends_on "otsge/draft/openssl@4"
+  depends_on "openssl@4"
 
   on_macos do
     depends_on "gettext"
