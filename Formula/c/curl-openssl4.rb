@@ -39,9 +39,9 @@ class CurlOpenssl4 < Formula
   depends_on "c-ares"
   depends_on "libnghttp2"
   depends_on "libnghttp3"
+  depends_on "openssl@4"
   depends_on "otsge/draft/libngtcp2"
   depends_on "otsge/draft/libssh2"
-  depends_on "otsge/draft/openssl@4"
   depends_on "zstd"
 
   uses_from_macos "krb5"
