@@ -7,13 +7,14 @@ class WgetOpenssl4 < Formula
 
   bottle do
     root_url "https://ghcr.io/v2/otsge/tap"
-    sha256 arm64_tahoe:   "c6f73915a7e8cf6079f7838c01b723cf229be90a902bd7f2aaae6441b583f515"
-    sha256 arm64_sequoia: "332e2e6257bcca76ba4b14a27533d29f4549373f14dd9fc0debc03935661d3f1"
-    sha256 arm64_sonoma:  "6cc5f23d80aa936c2bfd2e911a3ee8fc04f803987844c6997c53c7ceb2b8149e"
-    sha256 tahoe:         "f773d278a7b1b715ddc25ecca3eb3ea8070341e552ec1358c115598ee3de51b6"
-    sha256 sequoia:       "f6378b46ea97ed756598b8549831ca8ce1b94e6ad9aa343f1f4cf1804b1ab46c"
-    sha256 arm64_linux:   "1ffa47aae3881180e3c771a68e6761d3fec5ffe5fee9d80dd3de781517c1bad0"
-    sha256 x86_64_linux:  "76f49de13d4e1a9fe098e6a565d4df15095c54d629e938d1b5a572af9ac535d0"
+    rebuild 1
+    sha256 arm64_tahoe:   "a5cdb77c9c174aaa5a886b0af59270397db9ef10f71c848dbbf4d2e2d65f2393"
+    sha256 arm64_sequoia: "7572974aab702aecaa837fd1e3bd23ac31997978d0baa9edbd0c29b170b482cb"
+    sha256 arm64_sonoma:  "493a74f107859ffc94bf4162c2afc321c372b680415511122f2cf04f40ceb2c8"
+    sha256 tahoe:         "73502377267078fe9efbd91b5ad70fc5d9c62e2e8e6dbe99bddc01a2abd10495"
+    sha256 sequoia:       "ec175691e4d6e4676d05db2cff9b792c727b50a06ff782a2376d3edcd90c1715"
+    sha256 arm64_linux:   "54a25174c7a2a2635f460a6df2afe342c67c08eeef9b2c728cf850a17f70f42b"
+    sha256 x86_64_linux:  "063e18d85b23ec6c337cf8c8c4441d58f28c4a9e0d16a4418ab4002c073d3922"
   end
 
   head do
