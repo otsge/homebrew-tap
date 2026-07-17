@@ -226,7 +226,6 @@ jobs:
             git add . && git commit --amend --no-edit
           fi
           popd
-          brew tap otsge/draft
           brew trust otsge/draft
           brew test-bot --only-formulae --skip-online-checks --skip-dependents --root-url=https://ghcr.io/v2/otsge/tap
 
