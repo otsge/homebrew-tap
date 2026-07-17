@@ -7,13 +7,14 @@ class Aria2Openssl4 < Formula
 
   bottle do
     root_url "https://ghcr.io/v2/otsge/tap"
-    sha256 cellar: :any, arm64_tahoe:   "95ece9f0eba77744fdf7a131ba9a6de5161c811fe355312b36db910827beffea"
-    sha256 cellar: :any, arm64_sequoia: "014699add6d2bfc09f08851cbfac923f00a7dc09500bbf65ef3501881c435586"
-    sha256 cellar: :any, arm64_sonoma:  "d0345b462a2ddb9818bc412e14e014f7b200f49fa1c333ea71042647a7d8e04b"
-    sha256 cellar: :any, tahoe:         "c061f705999a56129989fa3ecb0327fbaad96a40f87e6d72790d91d66c87d2f6"
-    sha256 cellar: :any, sequoia:       "161067ccebdbb39b7adc60e067c6be71f6f97e6c222dd95945ab107b5f5e6c13"
-    sha256 cellar: :any, arm64_linux:   "14144d3a6a66530f02e629e0cdf003b7cbc9abc6e8fdadc4dc03add2383f5b3f"
-    sha256 cellar: :any, x86_64_linux:  "ff02c1a425ee3cbf59643b5a98d736934419bc70d53c409283f3b7c195b3c3e3"
+    rebuild 1
+    sha256 cellar: :any, arm64_tahoe:   "ceaee09eabe1311afb3098963513a5624727012deb7267acf5584149c0ba3dfb"
+    sha256 cellar: :any, arm64_sequoia: "244d5fdc8ece017b4e101b6b75b965c2b5a34d5c8b867fbf786c6961a5daa092"
+    sha256 cellar: :any, arm64_sonoma:  "d02c23debe627b22529cab82879bba6df650461226ecb0ff68e14ad08d64951e"
+    sha256 cellar: :any, tahoe:         "285be6cf8fb0fe7a349e864216843e0158c16c168edcec3a59d6ad0f8c535a95"
+    sha256 cellar: :any, sequoia:       "6c0d63b86b7e280d6ee7ddc9303add9545339e455be4c9a7be408a97c1ffe3b8"
+    sha256 cellar: :any, arm64_linux:   "82d272c92f2321bcb1593a59334966172ac1f20a476531f5bc0f40ee08279ff3"
+    sha256 cellar: :any, x86_64_linux:  "88dd34097435ed18077a36307595084b3cb3e282a1e10cabdf0a7976dc752c72"
   end
 
   head do
