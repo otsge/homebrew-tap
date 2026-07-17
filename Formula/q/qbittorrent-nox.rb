@@ -4,6 +4,7 @@ class QbittorrentNox < Formula
   url "https://github.com/qbittorrent/qBittorrent/archive/refs/tags/release-5.2.3.tar.gz"
   sha256 "a5f540cdfb0053f0ce1a1c62ccd92d08214f16bcb2c512569ec54d81531e541f"
   license "GPL-2.0-or-later"
+  revision 1
   head "https://github.com/qbittorrent/qBittorrent.git", branch: "master"
 
   bottle do
@@ -20,9 +21,9 @@ class QbittorrentNox < Formula
   depends_on "ninja" => :build
   depends_on "qtdeclarative" => :build
   depends_on "qttools" => :build
-  depends_on "libtorrent-rasterbar"
   depends_on :macos
   depends_on "openssl@3"
+  depends_on "otsge/draft/libtorrent-rasterbar@2.0"
   depends_on "qtbase"
 
   uses_from_macos "zlib"
