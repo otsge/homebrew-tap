@@ -29,7 +29,7 @@ class TartDev < Formula
     cp Dir["Resources/actool/{*.icns,*.car}"], "tart.app/Contents/Resources/"
     system "strip", "tart.app/Contents/MacOS/tart"
     libexec.install "tart.app"
-    bin.write_exec_script "#{libexec}/tart.app/Contents/MacOS/tart"
+    bin.install_symlink libexec/"tart.app/Contents/MacOS/tart"
   end
 
   def post_install
