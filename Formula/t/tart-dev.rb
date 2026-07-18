@@ -1,9 +1,10 @@
-class Tart < Formula
+class TartDev < Formula
   desc "Run macOS and Linux VMs on Apple Hardware"
   homepage "https://github.com/openai/tart"
   url "https://github.com/openai/tart/archive/refs/tags/2.33.0.tar.gz"
   sha256 "65f339eb17db8f21a9404346f3bcfab396dad22f07de52772096dbe1c991c4ec"
   license "FSL-1.1-ALv2"
+  revision 1
   head "https://github.com/openai/tart.git", branch: "main"
 
   bottle do
@@ -13,6 +14,8 @@ class Tart < Formula
     sha256 cellar: :any_skip_relocation, tahoe:         "4524d56f27fdbea7a3be04a1af1682207af9fd7bb77deedff9f4218242956f51"
     sha256 cellar: :any_skip_relocation, sequoia:       "1e31f4c44648c487aa77fc19f6cf142e9f95b514623dbc1126206bae56ca4987"
   end
+
+  keg_only :versioned_formula
 
   depends_on xcode: ["16.3", :build]
   depends_on :macos
