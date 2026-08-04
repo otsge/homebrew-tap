@@ -8,13 +8,13 @@ class Forgejo < Formula
 
   bottle do
     root_url "https://ghcr.io/v2/otsge/tap"
-    sha256 cellar: :any_skip_relocation, arm64_tahoe:   "2b25adb328ae29eea46402fd12b1033a2087261e72373fbc0dcca7ac4526f425"
-    sha256 cellar: :any_skip_relocation, arm64_sequoia: "a5a7417151645e05700ad4a7480a834a1b2b757114db5a0ccbbffcbad384e403"
-    sha256 cellar: :any_skip_relocation, arm64_sonoma:  "93194f7b62007a8a4f60542ee3dfd60d4e2c06ccb96f4b42b766217035cc0edc"
-    sha256 cellar: :any_skip_relocation, tahoe:         "2a81fbe5f04cac3f97c3bae8abfa804c21ae8e4032ea10eaf961a858bcadb4ab"
-    sha256 cellar: :any_skip_relocation, sequoia:       "87b4eebc37de65ce8aeb58f5205ac3fc7f598464bd8412ac824e3925684870bf"
-    sha256 cellar: :any,                 arm64_linux:   "3b8e9b5b8cb0588f474734d87a1a0fd42f65b737174fd648287882ed4b2a0a65"
-    sha256 cellar: :any,                 x86_64_linux:  "3e62812c85fa0d04754f3cd0e20e25315f23d38876c661841582057086ee993c"
+    sha256 cellar: :any_skip_relocation, arm64_tahoe:   "34aeef4b1b0e5167d635b681246ae965041f1821e6e26be9a22a1da4141300f4"
+    sha256 cellar: :any_skip_relocation, arm64_sequoia: "0ff2702fff53d23725e7487245ff60be3b619820b30be0c51ada4053798882b5"
+    sha256 cellar: :any_skip_relocation, arm64_sonoma:  "38e757a56b65ce62c7624f2925bee179bba3a9a666299819cfa65e682beea628"
+    sha256 cellar: :any_skip_relocation, tahoe:         "ac8bc00ea1f27fdd068f29d3c29e8f535ec651cccd39d52aeb28ffbdcc2176b7"
+    sha256 cellar: :any_skip_relocation, sequoia:       "01c40f0153c4084748bc1af171451da2233282cf2c0b94712fe2c416a772870a"
+    sha256 cellar: :any,                 arm64_linux:   "ada9813d7d8793bb00dfeb535e9ffa6848243f05f8051af9c5912057ce056563"
+    sha256 cellar: :any,                 x86_64_linux:  "6138dff9c52cb279822861b1ef654a0f670fc3271672739482ed79e9a2ebfaba"
   end
 
   depends_on "go" => :build
