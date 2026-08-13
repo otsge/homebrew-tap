@@ -186,11 +186,11 @@ jobs:
           OPENSSL_4: ${{ (needs.changed_files.outputs.openssl4-files && 'TRUE') || 'FALSE' }}
           XCODE_26: ${{ (needs.changed_files.outputs.xcode26-files && 'TRUE') || 'FALSE' }}
         run:  |
+          brew trust otsge/draft
+          brew tap otsge/draft
           if [[ "${OPENSSL_4}" == "TRUE" ]]
           then
             export HOMEBREW_NO_INSTALL_FROM_API=1
-            brew trust otsge/draft
-            brew tap otsge/draft
             sed -i '' 's#depends_on "libssh2"#depends_on "otsge/draft/libssh2"#g' "$(brew --repository homebrew/core)"/Formula/*/*.rb
             sed -i '' 's#depends_on "libngtcp2"#depends_on "otsge/draft/libngtcp2"#g' "$(brew --repository homebrew/core)"/Formula/*/*.rb
           fi
@@ -319,6 +319,8 @@ jobs:
           IS_CURL: ${{ (needs.changed_files.outputs.curl-files && 'TRUE') || 'FALSE' }}
           OPENSSL_4: ${{ (needs.changed_files.outputs.openssl4-files && 'TRUE') || 'FALSE' }}
         run:  |
+          brew trust otsge/draft
+          brew tap otsge/draft
           if [[ "${IS_CURL}" == "TRUE" ]]
           then
             export HOMEBREW_NO_INSTALL_FROM_API=1
@@ -327,8 +329,6 @@ jobs:
           if [[ "${OPENSSL_4}" == "TRUE" ]]
           then
             export HOMEBREW_NO_INSTALL_FROM_API=1
-            brew trust otsge/draft
-            brew tap otsge/draft
             sed -i 's#depends_on "libssh2"#depends_on "otsge/draft/libssh2"#g' "$(brew --repository homebrew/core)"/Formula/*/*.rb
             sed -i 's#depends_on "libngtcp2"#depends_on "otsge/draft/libngtcp2"#g' "$(brew --repository homebrew/core)"/Formula/*/*.rb
           fi
