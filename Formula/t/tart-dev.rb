@@ -1,8 +1,8 @@
 class TartDev < Formula
   desc "Run macOS and Linux VMs on Apple Hardware"
   homepage "https://github.com/openai/tart"
-  url "https://github.com/openai/tart/archive/refs/tags/2.35.0.tar.gz"
-  sha256 "f1b148c3a9dce2fb449e0c7431668c4cd107c7d46f080d32e52c293b1be4a393"
+  url "https://github.com/openai/tart/archive/refs/tags/2.36.0.tar.gz"
+  sha256 "ec971351908037ae993b78a3bf8d17306c498df5cfb2b7764100dd8c8c1be186"
   license "FSL-1.1-ALv2"
   head "https://github.com/openai/tart.git", branch: "main"
 
