@@ -8,10 +8,10 @@ class TartDev < Formula
 
   bottle do
     root_url "https://ghcr.io/v2/otsge/tap"
-    sha256 cellar: :any_skip_relocation, arm64_tahoe:   "475da61c52269a04447d789c0c643db6c56fdf75e7d9592af7ad2c38a13b5859"
-    sha256 cellar: :any_skip_relocation, arm64_sequoia: "e1482b3906008ef1c5d4403e19e7e26258bfd32d9328fa22b16debb67a92e9b1"
-    sha256 cellar: :any_skip_relocation, tahoe:         "4a67b91859fcfe5df773464e2a3441083d2cabdc2ce243a3b55f8ec445b7a8aa"
-    sha256 cellar: :any_skip_relocation, sequoia:       "9d33e4f3bce8b14a62e3557aded757de6da3ed0e060cf2f60c47ce7af1e3fe6f"
+    sha256 cellar: :any_skip_relocation, arm64_tahoe:   "11585d82efcdc0904996957bb2975a6e3a923c213e1331eefe0e4547cec3b0f6"
+    sha256 cellar: :any_skip_relocation, arm64_sequoia: "960f5a8dbe980818e0ac2c55389274757116d4d5652dab86cc74c96ac84befc7"
+    sha256 cellar: :any_skip_relocation, tahoe:         "ad23cdb09973a1a2e60d0a5c23ff448b4573738bd4119abed937459c796d5bfa"
+    sha256 cellar: :any_skip_relocation, sequoia:       "eecf79b8f98758dc120cb4d558df69d9b13d38f31f8e4b6d746c22be38c8a1fb"
   end
 
   keg_only :versioned_formula
