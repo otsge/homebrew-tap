@@ -38,11 +38,11 @@ class TartDev < Formula
     system "strip", "tart.app/Contents/MacOS/tart"
     libexec.install "tart.app"
     bin.install_symlink libexec/"tart.app/Contents/MacOS/tart"
+    generate_completions_from_executable(bin/"tart", "--generate-completion-script")
   end
 
-  def post_install
-    system "xattr", "-cr", libexec.to_s
-    generate_completions_from_executable(bin/"tart", "--generate-completion-script")
+  post_install_steps do
+    run "xattr", args: ["-cr"], base: :libexec
   end
 
   def caveats

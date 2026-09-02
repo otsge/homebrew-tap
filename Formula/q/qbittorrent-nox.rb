@@ -55,8 +55,8 @@ class QbittorrentNox < Formula
     bin.write_exec_script "#{libexec}/qbittorrent-nox.app/Contents/MacOS/qbittorrent-nox"
   end
 
-  def post_install
-    system "xattr", "-cr", libexec.to_s
+  post_install_steps do
+    run "xattr", args: ["-cr"], base: :libexec
   end
 
   service do
