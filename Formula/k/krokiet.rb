@@ -8,13 +8,11 @@ class Krokiet < Formula
 
   bottle do
     root_url "https://ghcr.io/v2/otsge/tap"
-    sha256 cellar: :any, arm64_tahoe:   "2c9f3e949e669fd78ca88fbd519226692dc65f6ad245b33abce8b7aa4d7ca5f5"
-    sha256 cellar: :any, arm64_sequoia: "3d397daffab11a7a4bd0d1025515cbaf5eda5215b04c4fe8ed4c9cd4f3999325"
-    sha256 cellar: :any, arm64_sonoma:  "989fc5b62c4b5511dec2e9cbd505a5c3348e6ba9a5e1473553b3ab55dc1ea1f8"
-    sha256 cellar: :any, tahoe:         "4593e6dc3eb96de0b6a0524891531f55cfe1e9fb0e0de6d41c89e261704bc360"
-    sha256 cellar: :any, sequoia:       "5b50a439527571fbdc1c54ce52ba417805f095d0a75ef928bf1d8cc585af1430"
-    sha256 cellar: :any, arm64_linux:   "ad5b6463f5c163683f8b47b45ce2b789c6f43f3845a40d371877346e7db27816"
-    sha256 cellar: :any, x86_64_linux:  "75ea81e5c0d884b0dbf17cd8c88098e44829886e923b0c8592820220e6429db3"
+    sha256 cellar: :any, arm64_tahoe:   "4d3ed73622836d4937208a4fc229e5a332a11c95faa4f67a2f188ea551a6703e"
+    sha256 cellar: :any, arm64_sequoia: "94115499b96373af49e242f610e1ebe678b43024108480b8385c83aa87a36a1f"
+    sha256 cellar: :any, arm64_sonoma:  "595800904d28cc66297cc53a952275f780adc7a7483f703802c9bd14ecbbd415"
+    sha256 cellar: :any, arm64_linux:   "0151f923d779936ccac0e9c284222481850fd3049a4d3bcc6b897f2c3257ba9d"
+    sha256 cellar: :any, x86_64_linux:  "07152f458014073ad387853951fbee2d6339525c0170ee9bd55b9e7057dc2957"
   end
 
   depends_on "rust" => :build
