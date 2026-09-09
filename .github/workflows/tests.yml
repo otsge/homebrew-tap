@@ -16,6 +16,7 @@ env:
   HOMEBREW_DEVELOPER: 1
   HOMEBREW_GITHUB_ACTIONS: 1
   HOMEBREW_NO_ANALYTICS: 1
+  HOMEBREW_NO_ASK: 1
   HOMEBREW_NO_AUTO_UPDATE: 1
   HOMEBREW_NO_INSTALL_FROM_API: 1
   HOMEBREW_ENFORCE_SBOM: 1
@@ -103,7 +104,7 @@ jobs:
         uses: Homebrew/actions/setup-homebrew@main
         with:
           core: true
-          cask: false
+          cask: true
           token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Cleanup runner
@@ -142,14 +143,19 @@ jobs:
           printf '\n</p>\n</details>\n' >> "$GITHUB_STEP_SUMMARY"
 
       - name: Tap syntax check
+        if: runner.arch == 'ARM64'
         run: brew test-bot --only-tap-syntax
 
       - name: Install FUSE-T
         if: ${{ needs.changed_files.outputs.fuse-files == 'True' }}
         run: |
-          brew tap otsge/keg
+          brew install --verbose --cask fuse-t
           brew trust otsge/keg
-          brew install --cask otsge/keg/fuse-t
+          brew tap otsge/keg
+          pushd "$(brew --repo otsge/keg)"
+          sudo cmd/brew-fuse-t-links-add
+          popd
+          brew untap homebrew/cask
 
       - name: Base64-encode GITHUB_TOKEN for HOMEBREW_DOCKER_REGISTRY_TOKEN
         id: base64-encode
