@@ -90,3 +90,7 @@ jobs:
         env:
           GIT_COMMITTER_NAME: BrewTestBot
           GIT_COMMITTER_EMAIL: 1589480+BrewTestBot@users.noreply.github.com
+
+      - name: Delete branch
+        if: github.event.pull_request.head.repo.fork == false
+        run: git push --delete origin "${BOTTLE_BRANCH}"

@@ -56,7 +56,7 @@ class QbittorrentNox < Formula
   end
 
   post_install_steps do
-    run "xattr", args: ["-cr"], base: :libexec
+    run "/usr/bin/xattr", args: ["-cr", "{{libexec}}"]
   end
 
   service do
