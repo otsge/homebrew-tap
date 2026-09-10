@@ -1,8 +1,8 @@
 class TartDev < Formula
   desc "Run macOS and Linux VMs on Apple Hardware"
   homepage "https://github.com/openai/tart"
-  url "https://github.com/openai/tart/archive/refs/tags/2.36.0.tar.gz"
-  sha256 "ec971351908037ae993b78a3bf8d17306c498df5cfb2b7764100dd8c8c1be186"
+  url "https://github.com/openai/tart/archive/refs/tags/2.37.0.tar.gz"
+  sha256 "39df119ae301cd61864fbf1b170123eb3845819a24828a64c1eefc91199b1277"
   license "FSL-1.1-ALv2"
   head "https://github.com/openai/tart.git", branch: "main"
 
@@ -42,7 +42,7 @@ class TartDev < Formula
   end
 
   post_install_steps do
-    run "xattr", args: ["-cr"], base: :libexec
+    run "/usr/bin/xattr", args: ["-cr", "{{libexec}}"]
   end
 
   def caveats
