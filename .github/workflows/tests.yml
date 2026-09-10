@@ -1,12 +1,6 @@
 name: CI
 
 on:
-  # push:
-  #   branches:
-  #     - main
-  #     - master
-  #   paths:
-  #     - 'Formula/**'
   pull_request:
     paths:
       - 'Formula/**'
@@ -16,11 +10,9 @@ env:
   HOMEBREW_DEVELOPER: 1
   HOMEBREW_GITHUB_ACTIONS: 1
   HOMEBREW_NO_ANALYTICS: 1
-  HOMEBREW_NO_ASK: 1
   HOMEBREW_NO_AUTO_UPDATE: 1
   HOMEBREW_NO_INSTALL_FROM_API: 1
   HOMEBREW_ENFORCE_SBOM: 1
-  # HOMEBREW_NO_BUILD_ERROR_ISSUES: 1
   GH_REPO: ${{ github.repository }}
   GH_NO_UPDATE_NOTIFIER: 1
   GH_PROMPT_DISABLED: 1
@@ -88,7 +80,7 @@ jobs:
     continue-on-error: ${{ github.event_name == 'pull_request' && contains(github.event.pull_request.labels.*.name, 'CI-no-fail-fast-syntax') }}
     strategy:
       matrix:
-        os: [ macos-14, macos-15, macos-15-intel, macos-26, macos-26-intel ]
+        os: [ macos-15, macos-26 ]
     runs-on: ${{ matrix.os }}
     permissions:
       actions: read
@@ -110,29 +102,12 @@ jobs:
       - name: Cleanup runner
         run: brew test-bot --only-cleanup-before
 
-      - name: Get cache key
-        id: setup-cache
-        run: |
-          cache_key_prefix="${RUNNER_OS}"
-          if [ "${RUNNER_OS}" == "macOS" ]
-          then
-            macos_full_version="$(sw_vers -productVersion)"
-            macos_version="${macos_full_version%%.*}"
-            arch="$(uname -m)"
-            cache_key_prefix="${macos_version}-${arch}"
-          fi
-          {
-          echo "prefix=${cache_key_prefix}"
-          echo "macos_version=${macos_version:-}"
-          echo "arch=${arch:-}"
-          } >> "${GITHUB_OUTPUT}"
-
       - name: Cache Homebrew Bundler RubyGems
         uses: actions/cache@main
         with:
           path: ${{ steps.set-up-homebrew.outputs.gems-path }}
-          key: ${{ steps.setup-cache.outputs.prefix }}-rubygems-${{ steps.set-up-homebrew.outputs.gems-hash }}
-          restore-keys: ${{ steps.setup-cache.outputs.prefix }}-rubygems-
+          key: ${{ matrix.os }}-rubygems-${{ steps.set-up-homebrew.outputs.gems-hash }}
+          restore-keys: ${{ matrix.os }}-rubygems-
 
       - name: Setup Homebrew test environment
         run: |
@@ -143,7 +118,6 @@ jobs:
           printf '\n</p>\n</details>\n' >> "$GITHUB_STEP_SUMMARY"
 
       - name: Tap syntax check
-        if: runner.arch == 'ARM64'
         run: brew test-bot --only-tap-syntax
 
       - name: Install FUSE-T
@@ -174,12 +148,11 @@ jobs:
           rm -rvf "${BOTTLES_DIR:?}"
           mkdir "${BOTTLES_DIR:?}"
 
-          bottle_specifier="{macos-${MACOS_VERSION},${MACOS_VERSION}-${ARCH}}"
+          bottle_specifier="{${MACOS_VERSION},${MACOS_VERSION}-${{ runner.arch }}}"
 
           echo "bottle_specifier=$bottle_specifier" >> "$GITHUB_OUTPUT"
         env:
-          MACOS_VERSION: ${{ steps.setup-cache.outputs.macos_version }}
-          ARCH: ${{ steps.setup-cache.outputs.arch }}
+          MACOS_VERSION: ${{ matrix.os }}
 
       - name: Build bottle for ${{ matrix.os }}
         id: build-bottle
@@ -188,7 +161,6 @@ jobs:
         env:
           HOMEBREW_DOCKER_REGISTRY_TOKEN: ${{ steps.base64-encode.outputs.token }}
           IS_CURL: ${{ (needs.changed_files.outputs.curl-files && 'TRUE') || 'FALSE' }}
-          MACOS_VERSION: ${{ steps.setup-cache.outputs.macos_version }}
           OPENSSL_4: ${{ (needs.changed_files.outputs.openssl4-files && 'TRUE') || 'FALSE' }}
           XCODE_26: ${{ (needs.changed_files.outputs.xcode26-files && 'TRUE') || 'FALSE' }}
         run:  |
@@ -200,23 +172,11 @@ jobs:
             sed -i '' 's#depends_on "libssh2"#depends_on "otsge/draft/libssh2"#g' "$(brew --repository homebrew/core)"/Formula/*/*.rb
             sed -i '' 's#depends_on "libngtcp2"#depends_on "otsge/draft/libngtcp2"#g' "$(brew --repository homebrew/core)"/Formula/*/*.rb
           fi
-          if [[ "${{ runner.arch }}" == "X64" ]]
-          then
-            cp /Users/runner/work/homebrew-tap/homebrew-tap/.github/workflows/files/tb_formulae "$(brew --prefix)"/Homebrew/Library/Homebrew/test_bot/formulae.rb
-          fi
-          if [[ "${XCODE_26}" == "TRUE" && "${MACOS_VERSION}" == "15" && "${{runner.arch }}" == "ARM64" ]]
+          if [[ "${XCODE_26}" == "TRUE" && ${{ matrix.os }} == "macos-15" ]]
           then
             brew install xcodes
             xcodes install --latest --select
           fi
-          cp "$(brew --repository otsge/tap)/.github/workflows/files/formula_cellar_checks" "$(brew --repository)/Library/Homebrew/formula_cellar_checks.rb"
-          pushd "$(brew --repository)"
-          s="$(git status --porcelain)"
-          if [[ -n "$s" ]]
-          then
-            git add . && git commit --amend --no-edit
-          fi
-          popd
           brew test-bot --only-formulae --skip-online-checks --skip-dependents --root-url=https://ghcr.io/v2/otsge/tap
 
       - name: Post-build steps
@@ -236,11 +196,15 @@ jobs:
       matrix:
         include:
           - os: ubuntu-24.04
-            container: ghcr.io/homebrew/ubuntu24.04:main
+            container:
+              image: ghcr.io/homebrew/ubuntu24.04:main
+              options: --privileged
           - os: ubuntu-24.04-arm
-            container: ghcr.io/homebrew/ubuntu24.04:main
+            container:
+              image: ghcr.io/homebrew/ubuntu24.04:main
+              options: --privileged
     runs-on: ${{ matrix.os }}
-    container: ${{ matrix.container }}
+    container: ${{ fromJSON(toJSON(matrix.container)) }}
     permissions:
       actions: read
       checks: read
@@ -261,26 +225,12 @@ jobs:
       - name: Cleanup runner
         run: brew test-bot --only-cleanup-before
 
-      - name: Get cache key
-        id: setup-cache
-        run: |
-          cache_key_prefix="${RUNNER_OS}"
-          if [ "${RUNNER_OS}" == "Linux" ]
-          then
-            arch="$(uname -m)"
-            cache_key_prefix="Linux-${arch}"
-          fi
-          {
-          echo "prefix=${cache_key_prefix}"
-          echo "arch=${arch:-}"
-          } >> "${GITHUB_OUTPUT}"
-
       - name: Cache Homebrew Bundler RubyGems
         uses: actions/cache@main
         with:
           path: ${{ steps.set-up-homebrew.outputs.gems-path }}
-          key: ${{ steps.setup-cache.outputs.prefix }}-rubygems-${{ steps.set-up-homebrew.outputs.gems-hash }}
-          restore-keys: ${{ steps.setup-cache.outputs.prefix }}-rubygems-
+          key: ${{ matrix.os }}-rubygems-${{ steps.set-up-homebrew.outputs.gems-hash }}
+          restore-keys: ${{ matrix.os }}-rubygems-
 
       - name: Setup Homebrew test environment
         run: |
@@ -310,11 +260,11 @@ jobs:
           rm -rvf "${BOTTLES_DIR:?}"
           mkdir "${BOTTLES_DIR:?}"
 
-          bottle_specifier="{ubuntu,linux}"
+          bottle_specifier="{${{ matrix.os }},linux-${ARCH}}"
 
           echo "bottle_specifier=$bottle_specifier" >> "$GITHUB_OUTPUT"
         env:
-          ARCH: ${{ steps.setup-cache.outputs.arch }}
+          ARCH: ${{ runner.arch }}
 
       - name: Build bottle for ${{ matrix.os }}
         id: build-bottle
@@ -338,13 +288,6 @@ jobs:
             sed -i 's#depends_on "libssh2"#depends_on "otsge/draft/libssh2"#g' "$(brew --repository homebrew/core)"/Formula/*/*.rb
             sed -i 's#depends_on "libngtcp2"#depends_on "otsge/draft/libngtcp2"#g' "$(brew --repository homebrew/core)"/Formula/*/*.rb
           fi
-          # pushd "$(brew --repository)"
-          # s="$(git status --porcelain)"
-          # if [[ -n "$s" ]]
-          # then
-          #   git add . && git commit --amend --no-edit
-          # fi
-          # popd
           brew test-bot --only-formulae --skip-online-checks --skip-dependents --root-url=https://ghcr.io/v2/otsge/tap
 
       - name: Post-build steps

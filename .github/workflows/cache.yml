@@ -34,27 +34,19 @@ jobs:
   cache:
     strategy:
       matrix:
+        os: [ macos-15, macos-26 ]
         include:
-          - os: macos-14
-            name: macos 14-arm64
-          - os: macos-15
-            name: macOS 15-arm64
-          - os: macos-15-intel
-            name: macOS 15-x86_64
-          - os: macos-26
-            name: macOS 26-arm64
-          - os: macos-26-intel
-            name: macOS 26-x86_64
           - os: ubuntu-24.04
-            name: Linux x86_64
-            container: ghcr.io/homebrew/ubuntu24.04:main
+            container:
+              image: ghcr.io/homebrew/ubuntu24.04:main
+              options: --privileged
           - os: ubuntu-24.04-arm
-            name: Linux arm64
-            container: ghcr.io/homebrew/ubuntu24.04:main
+            container:
+              image: ghcr.io/homebrew/ubuntu24.04:main
+              options: --privileged
       fail-fast: false
-    name: ${{ matrix.name }}
     runs-on: ${{ matrix.os }}
-    container: ${{ matrix.container }}
+    container: ${{ fromJSON(toJSON(matrix.container)) }}
     steps:
       - name: Set up Homebrew
         id: set-up-homebrew
@@ -67,26 +59,12 @@ jobs:
         working-directory: ${{ runner.temp }}
         run: brew test-bot --only-cleanup-before
 
-      - name: Get cache key
-        id: cache-key
-        run: |
-          cache_key_prefix="${{ runner.os }}"
-          if [ "${{ runner.os }}" = macOS ]
-          then
-            macos_version="$(sw_vers -productVersion)"
-            cache_key_prefix="${macos_version%%.*}-$(uname -m)"
-          elif [ "${{ runner.os }}" == "Linux" ]
-          then
-            cache_key_prefix="Linux-$(uname -m)"
-          fi
-          echo "prefix=${cache_key_prefix}" >> "${GITHUB_OUTPUT}"
-
       - name: Cache Homebrew Bundler gems
         uses: actions/cache@main
         with:
           path: ${{ steps.set-up-homebrew.outputs.gems-path }}
-          key: ${{ steps.cache-key.outputs.prefix }}-rubygems-${{ steps.set-up-homebrew.outputs.gems-hash }}
-          restore-keys: ${{ steps.cache-key.outputs.prefix }}-rubygems-
+          key: ${{ matrix.os }}-rubygems-${{ steps.set-up-homebrew.outputs.gems-hash }}
+          restore-keys: ${{ matrix.os }}-rubygems-
 
       - name: Setup Homebrew test environment
         working-directory: ${{ runner.temp }}
