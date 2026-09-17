@@ -80,7 +80,7 @@ jobs:
     continue-on-error: ${{ github.event_name == 'pull_request' && contains(github.event.pull_request.labels.*.name, 'CI-no-fail-fast-syntax') }}
     strategy:
       matrix:
-        os: [ macos-15, macos-26 ]
+        os: [ macos-15, macos-26, xcode-27 ]
     runs-on: ${{ matrix.os }}
     permissions:
       actions: read

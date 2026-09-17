@@ -34,7 +34,7 @@ jobs:
   cache:
     strategy:
       matrix:
-        os: [ macos-15, macos-26 ]
+        os: [ macos-15, macos-26, xcode-27 ]
         include:
           - os: ubuntu-24.04
             container:

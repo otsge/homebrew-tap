@@ -8,10 +8,10 @@ class Forgejo < Formula
 
   bottle do
     root_url "https://ghcr.io/v2/otsge/tap"
-    sha256 cellar: :any_skip_relocation, arm64_tahoe:   "f5d6406b6630eaa7000c64a52c13a2da8e926bd88419fb68825da0eff91e5fe7"
-    sha256 cellar: :any_skip_relocation, arm64_sequoia: "8817dd90d952b9a022f50266d7b297f2d4585ebd2922f639b2215a73903d36b3"
-    sha256 cellar: :any,                 arm64_linux:   "38ce0d1032aa544c39a977ef3f8779cf1aabbefdfd3614b62e0a8d5008f91df1"
-    sha256 cellar: :any,                 x86_64_linux:  "2f816733df5df35f7f2e5fb082edb08bfe68be3f2fc693c4128584ef1484652d"
+    sha256 cellar: :any_skip_relocation, arm64_tahoe:   "70f2e41ec5f7386f86f4baee669121414b5c1dad8523376574b946be7bf6e394"
+    sha256 cellar: :any_skip_relocation, arm64_sequoia: "e445e606a358b37a0098e711b5c221709f18205a3c529de16edd4cc16c1ed6da"
+    sha256 cellar: :any,                 arm64_linux:   "dddce99fda49bd54466ea4f0e2bf8d56fbdc3ad6ce3c68788e731cee335b1961"
+    sha256 cellar: :any,                 x86_64_linux:  "f4d80d53d662a872bd585d5c6377d0e782912922900804477f99950d617b8cb2"
   end
 
   depends_on "go" => :build
