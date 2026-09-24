@@ -28,6 +28,8 @@ class QbittorrentNox < Formula
 
   uses_from_macos "zlib"
 
+  deny_network_access!
+
   def install
     inreplace "dist/mac/qt.conf", "PlugIns", "#{HOMEBREW_PREFIX}/share/qt/plugins"
 
