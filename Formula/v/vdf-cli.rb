@@ -2,15 +2,10 @@ class VdfCli < Formula
   desc "Command-line interface for Video Duplicate Finder"
   homepage "https://github.com/0x90d/videoduplicatefinder"
   url "https://github.com/0x90d/videoduplicatefinder.git",
-      tag:      "4.1.x",
-      revision: "726c83c0da061dcd2e66405f28b995026343ab2c"
+      tag:      "v4.1.1",
+      revision: "21ec967e2e108bb9a2f09f937be000fb1e2c3615"
   license "CPL-1.0"
   head "https://github.com/0x90d/videoduplicatefinder.git", branch: "master"
-
-  livecheck do
-    url :stable
-    strategy :github_latest
-  end
 
   bottle do
     root_url "https://ghcr.io/v2/otsge/tap"
@@ -28,19 +23,28 @@ class VdfCli < Formula
   depends_on "openssl@3"
 
   def install
+    dotnet = Formula["dotnet"]
     ENV["DOTNET_CLI_TELEMETRY_OPTOUT"] = "1"
 
-    arch = Hardware::CPU.arm? ? "arm64" : "x64"
+    inreplace "VDF.Core/Utils/Coreutils.cs", "if (!I", "// if (!I"
+    inreplace "VDF.Core/Utils/CoreUtils.cs", /return CurrentFolder/, "// return CurrentFolder"
+    inreplace "VDF.Core/Utils/CoreUtils.cs", /"Library", "Application Support"/, "\".local\", \"state\""
+    inreplace "VDF.Core/Utils/Logger.cs", /CoreUtils.CurrentFolder/, "\"/tmp\""
+    inreplace "VDF.Core/Utils/Logger.cs", "log.txt", "vdf-log.txt"
 
     args = %W[
       -c Release
-      -r osx-#{arch}
-      -o #{libexec}
+      -r osx-arm64
+      -o outputCLI
       -p:PublishAot=true
       -p:DebugType=None
+      -p:VersionPrefix=#{version}
+      -f net#{dotnet.version.major_minor}
+      --use-current-runtime
     ]
     system "dotnet", "publish", "VDF.CLI/VDF.CLI.csproj", *args
-    bin.install_symlink libexec/"vdf-cli"
+    system "codesign", "-fs", "-", "--entitlements", "VDF.GUI/Assets/macOS/entitlements.plist", "outputCLI/vdf-cli"
+    bin.install buildpath/"outputCLI/vdf-cli"
   end
 
   test do
