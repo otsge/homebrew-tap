@@ -1,16 +1,10 @@
 class VdfCli < Formula
   desc "Command-line interface for Video Duplicate Finder"
   homepage "https://github.com/0x90d/videoduplicatefinder"
-  url "https://github.com/0x90d/videoduplicatefinder.git",
-      tag:      "4.1.x",
-      revision: "726c83c0da061dcd2e66405f28b995026343ab2c"
+  url "https://github.com/0x90d/videoduplicatefinder/archive/refs/tags/v4.1.1.tar.gz"
+  sha256 "726e139ff7befcc4d7d276a3b751de28924412d396e3fa4b38bba5643779c3c7"
   license "CPL-1.0"
   head "https://github.com/0x90d/videoduplicatefinder.git", branch: "master"
-
-  livecheck do
-    url :stable
-    strategy :github_latest
-  end
 
   bottle do
     root_url "https://ghcr.io/v2/otsge/tap"
@@ -38,6 +32,7 @@ class VdfCli < Formula
       -o #{libexec}
       -p:PublishAot=true
       -p:DebugType=None
+      -p:VersionPrefix=#{version}
     ]
     system "dotnet", "publish", "VDF.CLI/VDF.CLI.csproj", *args
     bin.install_symlink libexec/"vdf-cli"
