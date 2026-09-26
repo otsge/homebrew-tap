@@ -8,8 +8,8 @@ class TartDev < Formula
 
   bottle do
     root_url "https://ghcr.io/v2/otsge/tap"
-    sha256 cellar: :any_skip_relocation, arm64_tahoe:   "82e990faa0c828b176172c9ed201ce7e541d484d23f6b056cb26977177e2a477"
-    sha256 cellar: :any_skip_relocation, arm64_sequoia: "1d59f5c16524d60d46e56f5799ac12e677463f94eb10db65bf6b408a7bf52b24"
+    sha256 cellar: :any_skip_relocation, arm64_tahoe:   "44d2c46309e9bf8558cb6f46a0a3344c8e672fc5dea7bafafca57245f5ea5d96"
+    sha256 cellar: :any_skip_relocation, arm64_sequoia: "efae942d5aa42e94bac9bd8556d35e57cb577c329f6ba51b6158568a70c8b73e"
   end
 
   keg_only :versioned_formula
