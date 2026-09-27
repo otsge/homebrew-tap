@@ -1,8 +1,8 @@
 class Dumbversion < Formula
   desc "Smart way to make diffs between massive files"
   homepage "https://github.com/thecatontheceiling/DumbVersion"
-  url "https://github.com/thecatontheceiling/DumbVersion/archive/refs/tags/v1.2.1.tar.gz"
-  sha256 "f7830f9a8b8e110febec8e60b950df115d0c0a4a0805e703e304bc525112f0ff"
+  url "https://github.com/thecatontheceiling/DumbVersion/archive/refs/tags/v1.2.2.tar.gz"
+  sha256 "d9500c5f7749e923150d6878789057a4890863b0992d4a0d0866f96482510a15"
   license "GPL-3.0-or-later"
   head "https://github.com/thecatontheceiling/DumbVersion.git", branch: "master"
 
