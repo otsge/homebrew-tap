@@ -6,6 +6,15 @@ class Dumbversion < Formula
   license "GPL-3.0-or-later"
   head "https://github.com/thecatontheceiling/DumbVersion.git", branch: "master"
 
+  bottle do
+    root_url "https://ghcr.io/v2/otsge/tap"
+    sha256 cellar: :any, arm64_golden_gate: "3431708c27440833d03ed7708a8adb6c03cf5e3d0eb0bf04b8e6cc0e993f1811"
+    sha256 cellar: :any, arm64_tahoe:       "6ccbf779f57591dbc81fc89f23df1970bd4382af251976a315e5753f8c5f6d1f"
+    sha256 cellar: :any, arm64_sequoia:     "cce3532978a660c92954cf2f5971c50420b610c569e374cde9a3207d3d390e00"
+    sha256 cellar: :any, arm64_linux:       "d02ed024401738cc8d37f6c486592a6779a2426e28200f89ecc24ddd57fa51fc"
+    sha256 cellar: :any, x86_64_linux:      "25fe3505266d9cbebe49658083fe0ef4c94c359353f695fca0a2629b30f22599"
+  end
+
   depends_on "dotnet" => :build
   depends_on "brotli"
   depends_on "openssl@3"
