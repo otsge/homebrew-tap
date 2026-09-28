@@ -1,10 +1,9 @@
 class QbittorrentNox < Formula
   desc "Headless peer to peer Bitorrent client (libtorrent-rasterbar 2.0.x)"
   homepage "https://www.qbittorrent.org/"
-  url "https://github.com/qbittorrent/qBittorrent/archive/refs/tags/release-5.2.3.tar.gz"
-  sha256 "a5f540cdfb0053f0ce1a1c62ccd92d08214f16bcb2c512569ec54d81531e541f"
+  url "https://github.com/qbittorrent/qBittorrent/archive/refs/tags/release-5.2.4.tar.gz"
+  sha256 "226a6ad1aa7810fcbfa58b0d28b14feb8e207726cbe774d4d267ce769c19dd6c"
   license "GPL-2.0-or-later"
-  revision 2
   head "https://github.com/qbittorrent/qBittorrent.git", branch: "master"
 
   bottle do
