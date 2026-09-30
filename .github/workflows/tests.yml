@@ -38,7 +38,8 @@ jobs:
       added-files-count: ${{ steps.changed-files.outputs.added_files_count }}
       modified-files-count: ${{ steps.changed-files.outputs.modified_files_count }}
       curl-files: ${{ steps.file-deps.outputs.curl }}
-      fuse-files: ${{ steps.file-deps.outputs.fuse }}
+      fuse-t-files: ${{ steps.file-deps.outputs.fuse-t }}
+      ifuse-files: ${{ steps.file-deps.outputs.ifuse }}
       no-linux: ${{ steps.file-deps.outputs.no_linux }}
       openssl4-files: ${{ steps.file-deps.outputs.openssl4 }}
       xcode26-files: ${{ steps.file-deps.outputs.xcode26 }}
@@ -67,11 +68,12 @@ jobs:
         run: |
           echo "${ALL_CHANGED_FILES}"
           for file in ${ALL_CHANGED_FILES}; do
-            grep -qls 'libfuse' "$file" && echo "fuse=True" >> "${GITHUB_OUTPUT}" || true
+            grep -qls 'fuse-t' "$file" && echo "fuse-t=True" >> "${GITHUB_OUTPUT}" || true
             grep -qls 'xcode: \["26.0"' "$file" && echo "xcode26=True" >> "${GITHUB_OUTPUT}" || true
             grep -qls 'class Curl' "$file" && echo "curl=True" >> "${GITHUB_OUTPUT}" || true
             grep -qls 'depends_on.*openssl@4' "$file" && echo "openssl4=True" >> "${GITHUB_OUTPUT}" || true
             grep -qls 'depends_on :macos' "$file" || echo "no_linux=False" >> "${GITHUB_OUTPUT}"
+            grep -qls 'class Ifuse' "$file" && echo "ifuse=True" >> "${GITHUB_OUTPUT}" || true
           done
 
   test-bot-mac:
@@ -121,7 +123,7 @@ jobs:
         run: brew test-bot --only-tap-syntax
 
       - name: Install FUSE-T
-        if: ${{ needs.changed_files.outputs.fuse-files == 'True' }}
+        if: ${{ needs.changed_files.outputs.fuse-t-files == 'True' }}
         run: |
           brew install --verbose --cask fuse-t
           brew trust otsge/keg
@@ -160,12 +162,18 @@ jobs:
         working-directory: ${{ env.BOTTLES_DIR }}
         env:
           HOMEBREW_DOCKER_REGISTRY_TOKEN: ${{ steps.base64-encode.outputs.token }}
-          IS_CURL: ${{ (needs.changed_files.outputs.curl-files && 'TRUE') || 'FALSE' }}
+          IS_IFUSE: ${{ (needs.changed_files.outputs.ifuse-files && 'TRUE') || 'FALSE' }}
           OPENSSL_4: ${{ (needs.changed_files.outputs.openssl4-files && 'TRUE') || 'FALSE' }}
           XCODE_26: ${{ (needs.changed_files.outputs.xcode26-files && 'TRUE') || 'FALSE' }}
         run:  |
           brew trust otsge/draft
           brew tap otsge/draft
+          if [[ "${IS_IFUSE}" == "TRUE" ]]
+          then
+            export HOMEBREW_NO_INSTALL_FROM_API=1
+            export HOMEBREW_NO_AUTO_UPDATE=1
+            rm "$(brew --repository homebrew/core)"/Formula/i/ifuse.rb
+          fi
           if [[ "${OPENSSL_4}" == "TRUE" ]]
           then
             export HOMEBREW_NO_INSTALL_FROM_API=1
