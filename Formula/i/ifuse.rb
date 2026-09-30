@@ -5,6 +5,15 @@ class Ifuse < Formula
   sha256 "9d490470ba6553f8052b385bb5330462e46fbe82131ebe65be47a1cc1c70e857"
   license "LGPL-2.1-or-later"
 
+  bottle do
+    root_url "https://ghcr.io/v2/otsge/tap"
+    sha256 cellar: :any, arm64_golden_gate: "4ca550f204532a049f23dcacf1627185ea98961c52627e48819cf7c0406d2f70"
+    sha256 cellar: :any, arm64_tahoe:       "a66324f3c2c1e4976c1c865dfdbbd49c823e0edcb2fea9bb77fa1e69804c67e2"
+    sha256 cellar: :any, arm64_sequoia:     "9f341e537213d719750b2695fb94d9c18ab78b9cdea11a56ed9d34a012bfd36c"
+    sha256 cellar: :any, arm64_linux:       "3a08332dbd032f10a86de42ac81b020fdff96468bb74e50c75531b4ad433f122"
+    sha256 cellar: :any, x86_64_linux:      "15b3e1bbe26a329a6de7ef11c353c454ea48c894be8ed1a09fd7ccadc2f34e5c"
+  end
+
   head do
     url "https://github.com/libimobiledevice/ifuse.git", branch: "master"
 
