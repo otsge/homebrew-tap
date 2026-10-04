@@ -2,8 +2,8 @@ class Aria2Next < Formula
   desc "Redefining the next generation of aria2"
   homepage "https://github.com/AnInsomniacy/aria2-next"
   url "https://github.com/AnInsomniacy/aria2-next.git",
-      tag:      "v2.8.3",
-      revision: "f58a2d9463b3b549ca19039b055df1448e1b8c46"
+      tag:      "v2.8.6",
+      revision: "729af1187160f8d71985f51fd58c63a8826b7132"
   license "GPL-2.0-or-later"
   head "https://github.com/AnInsomniacy/aria2-next.git", branch: "main"
 
