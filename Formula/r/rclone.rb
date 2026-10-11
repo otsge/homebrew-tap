@@ -48,9 +48,11 @@ class Rclone < Formula
     system bin/"rclone", "genautocomplete", "bash", "rclone.bash"
     system bin/"rclone", "genautocomplete", "zsh", "_rclone"
     system bin/"rclone", "genautocomplete", "fish", "rclone.fish"
+    system bin/"rclone", "genautocomplete", "powershell", "rclone.ps1"
     bash_completion.install "rclone.bash" => "rclone"
     zsh_completion.install "_rclone"
     fish_completion.install "rclone.fish"
+    pwsh_completion.install "rclone.ps1"
   end
 
   test do
