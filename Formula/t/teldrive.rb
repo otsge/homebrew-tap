@@ -29,6 +29,8 @@ class Teldrive < Formula
     system "bun", "ci", "--cwd", "ui"
     system "bun", "run", "--cwd", "ui", "build"
     system "go", "build", "-trimpath", *std_go_args(ldflags:), "./cmd/teldrive"
+
+    generate_completions_from_executable(bin/"teldrive", shell_parameter_format: :cobra)
   end
 
   test do
