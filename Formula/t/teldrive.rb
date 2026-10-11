@@ -2,8 +2,8 @@ class Teldrive < Formula
   desc "Organizer for your telegram files"
   homepage "https://github.com/tgdrive/teldrive"
   url "https://github.com/tgdrive/teldrive.git",
-        tag:      "1.8.3",
-        revision: "d400a2df41db17ba220cd06973fc8df5c6f2854c"
+        tag:      "2.0.2",
+        revision: "9dc8bf16d2692a41d4c1b755224d30f7426414f4"
   license "MIT"
 
   bottle do
@@ -17,21 +17,20 @@ class Teldrive < Formula
     sha256 cellar: :any_skip_relocation, x86_64_linux:  "2ead4d77b650eac099cc7ed21c9b6d216affcc7be91024d597c067b54313ba5f"
   end
 
+  depends_on "bun" => :build
   depends_on "go" => :build
-  depends_on "go-task" => :build
 
   def install
     ENV["CGO_ENABLED"] = "0"
-    ENV["GO111MODULE"] = "on"
     ldflags = %W[
-      -extldflags=-static
       -s -w
-      -X github.com/tgdrive/teldrive/internal/version.Version=#{version}
-      -X github.com/tgdrive/teldrive/internal/version.CommitSHA=#{Utils.git_short_head(length: 7)}
+      -X main.version=#{version}
+      -X main.commit=#{Utils.git_head}
+      -X main.date=#{time.iso8601}
     ]
-    system "task", "ui"
-    system "task", "gen"
-    system "go", "build", "-trimpath", *std_go_args(ldflags:)
+    system "bun", "ci", "--cwd", "ui"
+    system "bun", "run", "--cwd", "ui", "build"
+    system "go", "build", "-trimpath", *std_go_args(ldflags:), "./cmd/teldrive"
   end
 
   test do
