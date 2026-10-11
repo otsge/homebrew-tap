@@ -26,6 +26,12 @@ class Forgejo < Formula
     system "go", "build", "contrib/environment-to-ini/environment-to-ini.go"
     bin.install "gitea" => "forgejo"
     bin.install "environment-to-ini"
+
+    generate_completions_from_executable(bin/"forgejo", "completion")
+    # powershell completion uses "pwsh" as the shell name
+    # instead of the usual "powershell" used by generate_completions_from_executable
+    (pwsh_completion/"forgejo").write Utils.safe_popen_read({ "SHELL" => "pwsh" }, bin/"forgejo",
+                                                            "completion", "pwsh")
   end
 
   service do
