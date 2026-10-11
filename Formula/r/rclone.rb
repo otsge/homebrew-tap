@@ -43,16 +43,19 @@ class Rclone < Formula
       end
     end
 
+    cd "cmd/genautocomplete" do
+      inreplace "genautocomplete_bash.go", "if len(args) > 0 ", "if len(args) >= 0 "
+      inreplace "genautocomplete_bash.go", 'if args[0] == "-" ', 'if len(args) == 0 || args[0] == "-" '
+      inreplace "genautocomplete_fish.go", "if len(args) > 0 ", "if len(args) >= 0 "
+      inreplace "genautocomplete_fish.go", 'if args[0] == "-" ', 'if len(args) == 0 || args[0] == "-" '
+      inreplace "genautocomplete_zsh.go", "if len(args) > 0 ", "if len(args) >= 0 "
+      inreplace "genautocomplete_zsh.go", 'if args[0] == "-" ', 'if len(args) == 0 || args[0] == "-" '
+    end
+
     system "make", "GOTAGS=cmount"
     man1.install "rclone.1"
-    system bin/"rclone", "genautocomplete", "bash", "rclone.bash"
-    system bin/"rclone", "genautocomplete", "zsh", "_rclone"
-    system bin/"rclone", "genautocomplete", "fish", "rclone.fish"
-    system bin/"rclone", "genautocomplete", "powershell", "rclone.ps1"
-    bash_completion.install "rclone.bash" => "rclone"
-    zsh_completion.install "_rclone"
-    fish_completion.install "rclone.fish"
-    pwsh_completion.install "rclone.ps1"
+
+    generate_completions_from_executable(bin/"rclone", shell_parameter_format: :cobra)
   end
 
   test do
