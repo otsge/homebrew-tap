@@ -2,10 +2,10 @@ class Curl < Formula
   desc "Get a file from an HTTP, HTTPS or FTP server"
   homepage "https://curl.se"
   # Don't forget to update both instances of the version in the GitHub mirror URL.
-  url "https://curl.se/download/curl-8.22.0.tar.bz2"
-  mirror "https://github.com/curl/curl/releases/download/curl-8_22_0/curl-8.22.0.tar.bz2"
-  mirror "http://fresh-center.net/linux/www/curl-8.22.0.tar.bz2"
-  sha256 "5d956a6a22b3c279f50c421ee5d3c9e9d660cb6f115dcf881b579e952130549c"
+  url "https://curl.se/download/curl-8.23.0.tar.bz2"
+  mirror "https://github.com/curl/curl/releases/download/curl-8_23_0/curl-8.23.0.tar.bz2"
+  mirror "http://fresh-center.net/linux/www/curl-8.23.0.tar.bz2"
+  sha256 "95b22eb32bf6d1fa6e3e9463bdb61cece3efc56d86576a9b3cbd428246a6d854"
   license "curl"
 
   livecheck do
@@ -40,7 +40,7 @@ class Curl < Formula
   depends_on "libnghttp3"
   depends_on "libngtcp2"
   depends_on "libssh2"
-  depends_on "openssl@3"
+  depends_on "openssl@4"
   depends_on "zstd"
 
   uses_from_macos "krb5"
@@ -71,7 +71,7 @@ class Curl < Formula
 
     args = %W[
       --disable-silent-rules
-      --with-openssl=#{formula_opt_prefix("openssl@3")}
+      --with-openssl=#{formula_opt_prefix("openssl@4")}
       --without-ca-bundle
       --without-ca-path
       --with-ca-fallback
