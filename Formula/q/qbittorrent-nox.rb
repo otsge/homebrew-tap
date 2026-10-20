@@ -8,9 +8,9 @@ class QbittorrentNox < Formula
 
   bottle do
     root_url "https://ghcr.io/v2/otsge/tap"
-    sha256 cellar: :any, arm64_golden_gate: "658255be7864479d7b870e88c6a67c50769847726a8ff4d01658a18917e53f22"
-    sha256 cellar: :any, arm64_tahoe:       "a5234ff5855ee1354c909117b97d655a7156ca0aa6978b5161b7f576f026121c"
-    sha256 cellar: :any, arm64_sequoia:     "00199369d0edb0aa16e126869a63db2b303c669477cb9da335735b4b2cf02e97"
+    sha256 cellar: :any, arm64_golden_gate: "8b8af0b253d337dc2d0a7360247e575553ade4f5a8e2d4ef18be4e1a7e496600"
+    sha256 cellar: :any, arm64_tahoe:       "8a43284c7ccb1a8e8c146ac1791a1465e655f9745ea5d987975c57a69405a15c"
+    sha256 cellar: :any, arm64_sequoia:     "21212d96be3dd3b253e872465b29caf46e339b8675693d4db2f80dfb85238fb4"
   end
 
   depends_on "boost" => :build
