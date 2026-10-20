@@ -8,11 +8,11 @@ class Teldrive < Formula
 
   bottle do
     root_url "https://ghcr.io/v2/otsge/tap"
-    sha256 cellar: :any_skip_relocation, arm64_golden_gate: "71ac3cc1057a00352a108c3fcaabcda2df14cffe2e3e38690957893e91914bb4"
-    sha256 cellar: :any_skip_relocation, arm64_tahoe:       "6d4315a96a1912c9b6eee6e2c6d44510b47a1e0d695bbbcf8729daa66b3a3092"
-    sha256 cellar: :any_skip_relocation, arm64_sequoia:     "29a4bbd0815b358bf221b7ca8b0f469571e51ed1e6ab8e7656510c2bb91d518e"
-    sha256 cellar: :any_skip_relocation, arm64_linux:       "8334ef8f0cf9f2ab1a650fe95e0e367e4b8b09666465ca4640fb6a0bbbf0564c"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:      "20c472cc0c0b48b57f81176b5ae7bfcf4c44372f59cf937f4319c3218fd07b4a"
+    sha256 cellar: :any_skip_relocation, arm64_golden_gate: "4f2b551fb038aae77642122cf0b04c1c1fc87a4f881228a43f7f684951d878be"
+    sha256 cellar: :any_skip_relocation, arm64_tahoe:       "74ba74b5b81f6a6f94a9344a915fd45e66983376868cc63eda4cfd49c6e942d2"
+    sha256 cellar: :any_skip_relocation, arm64_sequoia:     "e240428b2db4b3214d8c430a0580f864cb8908128ffb3272e41f5756e8fda391"
+    sha256 cellar: :any_skip_relocation, arm64_linux:       "dba74f9541a8354b76ce649600fe39c42207ac20f47551125db920852a02d5fc"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:      "465b2c4789e9b6e290c9885eeb2bed7b09782aee17b632d4283ff41eebf6e0b1"
   end
 
   depends_on "bun" => :build
