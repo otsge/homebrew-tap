@@ -17,11 +17,17 @@ class Dumbversion < Formula
 
   depends_on "dotnet" => :build
   depends_on "brotli"
-  depends_on "openssl@3"
+  depends_on "openssl@4"
 
   def install
     dotnet = Formula["dotnet"]
     ENV["DOTNET_CLI_TELEMETRY_OPTOUT"] = "1"
+
+    if OS.linux?
+      ENV["DOTNET_CLI_HOME"] = "/tmp"
+      ENV["XDG_DATA_HOME"] = "/tmp"
+      ENV["XDG_RUNTIME_DIR"] = "/tmp"
+    end
 
     os = OS.mac? ? "osx" : "linux"
     arch = Hardware::CPU.intel? ? "x64" : "arm64"
