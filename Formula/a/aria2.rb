@@ -28,7 +28,7 @@ class Aria2 < Formula
   depends_on "pkgconf" => :build
   depends_on "c-ares"
   depends_on "libssh2"
-  depends_on "openssl@3"
+  depends_on "openssl@4"
   depends_on "sqlite"
 
   uses_from_macos "libxml2"
@@ -41,8 +41,12 @@ class Aria2 < Formula
     depends_on "zlib-ng-compat"
   end
 
+  patch :DATA
+
+  # Test downloads a file from the network
+  allow_network_access! :test
+
   def install
-    ENV.cxx11
     ENV.append "LIBS", "-framework Security" if OS.mac?
 
     if build.head?
@@ -74,3 +78,37 @@ class Aria2 < Formula
     assert_path_exists testpath/"index.html", "Failed to create index.html!"
   end
 end
+
+__END__
+--- a/src/LibsslTLSSession.cc
++++ b/src/LibsslTLSSession.cc
+@@ -279,17 +279,17 @@ int OpenSSLTLSSession::tlsConnect(const std::string& hostname,
+           dnsNames.push_back(std::string(name, name + len));
+         }
+         else if (altName->type == GEN_IPADD) {
+-          const unsigned char* ipAddr = altName->d.iPAddress->data;
++          auto ipAddr = ASN1_STRING_get0_data(altName->d.iPAddress);
+           if (!ipAddr) {
+             continue;
+           }
+-          size_t len = altName->d.iPAddress->length;
++          size_t len = ASN1_STRING_length(altName->d.iPAddress);
+           ipAddrs.push_back(
+               std::string(reinterpret_cast<const char*>(ipAddr), len));
+         }
+       }
+     }
+-    X509_NAME* subjectName = X509_get_subject_name(peerCert);
++    const X509_NAME* subjectName = X509_get_subject_name(peerCert);
+     if (!subjectName) {
+       handshakeErr = "could not get X509 name object from the certificate.";
+       return TLS_ERR_ERROR;
+@@ -301,7 +301,7 @@ int OpenSSLTLSSession::tlsConnect(const std::string& hostname,
+       if (lastpos == -1) {
+         break;
+       }
+-      X509_NAME_ENTRY* entry = X509_NAME_get_entry(subjectName, lastpos);
++      const X509_NAME_ENTRY* entry = X509_NAME_get_entry(subjectName, lastpos);
+       unsigned char* out;
+       int outlen = ASN1_STRING_to_UTF8(&out, X509_NAME_ENTRY_get_data(entry));
+       if (outlen < 0) {
