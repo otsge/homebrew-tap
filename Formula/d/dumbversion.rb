@@ -8,11 +8,12 @@ class Dumbversion < Formula
 
   bottle do
     root_url "https://ghcr.io/v2/otsge/tap"
-    sha256 cellar: :any, arm64_golden_gate: "4324b4ff82dc1e2bc7eea2093348c6aabb756d3a6e7932bc3bfcb26bdc3d9e53"
-    sha256 cellar: :any, arm64_tahoe:       "00f800c2e167353f12456a81252e935861d6c7cac693ad72b7c5b8ae690cc6cd"
-    sha256 cellar: :any, arm64_sequoia:     "be6bdd8f46f0e09779f1fe69d223e7b06fd30da00022708dfe797154078c2278"
-    sha256 cellar: :any, arm64_linux:       "323af1a330727805d57cb35d059c12f5c9155aeca80fe53814a44fe89c52a754"
-    sha256 cellar: :any, x86_64_linux:      "a4462a6ca188439187384f99f4399d68849c6d931a145612cc499824f052a2ae"
+    rebuild 1
+    sha256 cellar: :any, arm64_golden_gate: "b05da4fb1e69a109e250dd7ccbf681b24f7854108acf5824aaaa8eeaaeed7c4c"
+    sha256 cellar: :any, arm64_tahoe:       "1a8302a625f53f181930f20bcfd4a7e9e9549e654a3fc6385c54f1fd41db22b4"
+    sha256 cellar: :any, arm64_sequoia:     "4f07373e759d932d09965897fc26b7294ad9c71b5331fe4cedb8534a951b501a"
+    sha256 cellar: :any, arm64_linux:       "836a953390df9cb1bdd1d732d01232700b59a28e8b624e37a07a5cad4878e512"
+    sha256 cellar: :any, x86_64_linux:      "0d9f89cd25423c92397384a9b0237f2fb80948b33840efc3f234f43e987ca0b3"
   end
 
   depends_on "dotnet" => :build
