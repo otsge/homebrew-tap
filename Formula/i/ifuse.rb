@@ -7,11 +7,12 @@ class Ifuse < Formula
 
   bottle do
     root_url "https://ghcr.io/v2/otsge/tap"
-    sha256 cellar: :any, arm64_golden_gate: "4ca550f204532a049f23dcacf1627185ea98961c52627e48819cf7c0406d2f70"
-    sha256 cellar: :any, arm64_tahoe:       "a66324f3c2c1e4976c1c865dfdbbd49c823e0edcb2fea9bb77fa1e69804c67e2"
-    sha256 cellar: :any, arm64_sequoia:     "9f341e537213d719750b2695fb94d9c18ab78b9cdea11a56ed9d34a012bfd36c"
-    sha256 cellar: :any, arm64_linux:       "3a08332dbd032f10a86de42ac81b020fdff96468bb74e50c75531b4ad433f122"
-    sha256 cellar: :any, x86_64_linux:      "15b3e1bbe26a329a6de7ef11c353c454ea48c894be8ed1a09fd7ccadc2f34e5c"
+    rebuild 1
+    sha256 cellar: :any, arm64_golden_gate: "98fbd23fc3c16a6b0d4cc9f7bd549e2d23150fc73092f79a6738db9d37e44218"
+    sha256 cellar: :any, arm64_tahoe:       "c0a8813ae339d80ddba76431f1e69164865e6c62b4de06bf288826e567d23963"
+    sha256 cellar: :any, arm64_sequoia:     "431a87c25542d092f8c5e452c8524eb02da6a4b5502c48da7274d8f131b4a2a1"
+    sha256 cellar: :any, arm64_linux:       "ed3413ff9067e019eeecd58b7aa246e5694c28efbe1ba7a3b1036c080a1a0be0"
+    sha256 cellar: :any, x86_64_linux:      "02983a33d0a67736d98dd5ff89c2ac64a130a6941a03d1d4966148c682fee9bb"
   end
 
   head do
