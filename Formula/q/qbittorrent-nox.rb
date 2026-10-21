@@ -19,7 +19,7 @@ class QbittorrentNox < Formula
   depends_on "qtdeclarative" => :build
   depends_on "qttools" => :build
   depends_on :macos
-  depends_on "openssl@3"
+  depends_on "openssl@4"
   depends_on "otsge/draft/libtorrent-rasterbar@2.0"
   depends_on "qtbase"
 
