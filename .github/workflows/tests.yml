@@ -285,6 +285,9 @@ jobs:
         run:  |
           brew trust otsge/draft
           brew tap otsge/draft
+          export DOTNET_CLI_HOME=/tmp
+          export XDG_RUNTIME_DIR=/tmp
+          export XDG_DATA_HOME=/tmp
           if [[ "${IS_CURL}" == "TRUE" ]]
           then
             export HOMEBREW_NO_INSTALL_FROM_API=1
