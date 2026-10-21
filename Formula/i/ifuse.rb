@@ -31,6 +31,8 @@ class Ifuse < Formula
     depends_on "libfuse"
   end
 
+  deny_network_access!
+
   def install
     if OS.mac?
       ENV.prepend_path "PKG_CONFIG_PATH", "/usr/local/lib/pkgconfig"
