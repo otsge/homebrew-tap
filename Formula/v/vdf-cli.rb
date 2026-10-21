@@ -9,9 +9,10 @@ class VdfCli < Formula
 
   bottle do
     root_url "https://ghcr.io/v2/otsge/tap"
-    sha256 cellar: :any, arm64_golden_gate: "0ff95364af74ce161382c74192214f163bd3a87ce4338d0b07e4623de87d7081"
-    sha256 cellar: :any, arm64_tahoe:       "c8b292ef08f53ff597c3c26d229eb129adc85334d18020532c595bae39a1397f"
-    sha256 cellar: :any, arm64_sequoia:     "faff7cd24d06a496ccd8261dcd7259cb88548824bfe00326546f62ae1f1375ae"
+    rebuild 1
+    sha256 cellar: :any, arm64_golden_gate: "6837c116ba1261ed7ba693edad9fd207b7dc23620ad13af26907a3e669ad5822"
+    sha256 cellar: :any, arm64_tahoe:       "4780e9b5c6703115fc570350c21f0dfdedeeb0ff238c0c3cb43d7f39288e5b5e"
+    sha256 cellar: :any, arm64_sequoia:     "d31ced65c98fd0e408300e310394ad51fb2323be21f30473a196f56cb6548d82"
   end
 
   depends_on "dotnet" => :build
