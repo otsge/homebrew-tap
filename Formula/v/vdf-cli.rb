@@ -18,7 +18,7 @@ class VdfCli < Formula
   depends_on "brotli"
   depends_on "ffmpeg"
   depends_on :macos
-  depends_on "openssl@3"
+  depends_on "openssl@4"
 
   def install
     dotnet = Formula["dotnet"]
