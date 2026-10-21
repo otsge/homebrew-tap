@@ -28,7 +28,8 @@ class Wget < Formula
   depends_on "pkgconf" => :build
   depends_on "libidn2"
   depends_on "libmetalink"
-  depends_on "openssl@3"
+  depends_on "libpsl"
+  depends_on "openssl@4"
 
   on_macos do
     depends_on "gettext"
@@ -40,17 +41,25 @@ class Wget < Formula
     depends_on "zlib-ng-compat"
   end
 
+  # Test downloads from the network
+  allow_network_access! :test
+
   def install
+    if build.stable?
+      inreplace "src/openssl.c", "#ifndef OPENSSL_NO_SSL3_METHOD",
+                "#if !defined OPENSSL_NO_SSL3_METHOD && OPENSSL_VERSION_NUMBER < 0x40000000L"
+    end
+
     system "./bootstrap", "--skip-po" if build.head?
-    system "./configure", "--prefix=#{prefix}",
-                          "--sysconfdir=#{etc}",
+    system "./configure", "--sysconfdir=#{etc}",
                           "--with-ssl=openssl",
-                          "--with-libssl-prefix=#{formula_opt_prefix("openssl@3")}",
-                          "--with-metalink",
+                          "--with-libssl-prefix=#{formula_opt_prefix("openssl@4")}",
                           "--disable-pcre",
                           "--disable-pcre2",
-                          "--without-libpsl",
-                          "--without-included-regex"
+                          "--with-libpsl",
+                          "--with-metalink",
+                          "--without-included-regex",
+                          *std_configure_args
     system "make", "install"
   end
 
