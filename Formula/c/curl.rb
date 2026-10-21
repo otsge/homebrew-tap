@@ -82,6 +82,7 @@ class Curl < Formula
       --with-zsh-functions-dir=#{zsh_completion}
       --with-fish-functions-dir=#{fish_completion}
       --enable-ares
+      --enable-ech
       --enable-httpsrr
       --enable-threaded-resolver
     ]
@@ -125,7 +126,7 @@ class Curl < Formula
 
     # Check dependencies linked correctly
     curl_features = shell_output("#{bin}/curl-config --features").split("\n")
-    %w[brotli GSS-API HTTP2 HTTP3 HTTPSRR IDN libz SSL zstd].each do |feature|
+    %w[brotli ECH GSS-API HTTP2 HTTP3 HTTPSRR IDN libz SSL zstd].each do |feature|
       assert_includes curl_features, feature
     end
     curl_protocols = shell_output("#{bin}/curl-config --protocols").split("\n")
