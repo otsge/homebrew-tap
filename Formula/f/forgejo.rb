@@ -1,8 +1,8 @@
 class Forgejo < Formula
   desc "Self-hosted lightweight software forge"
   homepage "https://forgejo.org/"
-  url "https://codeberg.org/forgejo/forgejo/releases/download/v17.0.0/forgejo-src-17.0.0.tar.gz"
-  sha256 "e89c58b872b05b451b630a7ae55a35e79c42cbdfdfd091376e06754ca203526d"
+  url "https://codeberg.org/forgejo/forgejo/releases/download/v17.0.1/forgejo-src-17.0.1.tar.gz"
+  sha256 "d6b32ac77e71af0737f30613d985a0dc335b694b8b989d609a0cc88972f2fd4d"
   license "GPL-3.0-or-later"
   head "https://codeberg.org/forgejo/forgejo.git", branch: "forgejo"
 
