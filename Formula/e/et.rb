@@ -1,8 +1,8 @@
 class Et < Formula
   desc "Remote terminal with IP roaming"
   homepage "https://mistertea.github.io/EternalTerminal/"
-  url "https://github.com/MisterTea/EternalTerminal/archive/refs/tags/et-v7.0.0.tar.gz"
-  sha256 "3580962861589c0b69efd6b385ff92ad8fdf688c91d1a0edc1a83278205e28e8"
+  url "https://github.com/MisterTea/EternalTerminal/archive/refs/tags/et-v7.1.0.tar.gz"
+  sha256 "6c1eacb22f3465af8edcdd814318e5e23a4cf3b8fc2e50a2525d2b2b3bf44016"
   license "Apache-2.0"
   head "https://github.com/MisterTea/EternalTerminal.git", branch: "master"
 
@@ -19,7 +19,6 @@ class Et < Formula
 
   depends_on "cmake" => :build
   depends_on "pkgconf" => :build
-
   depends_on "abseil"
   depends_on "libsodium"
   depends_on "openssl@4"
@@ -30,19 +29,21 @@ class Et < Formula
     depends_on "zlib-ng-compat"
   end
 
+  allow_network_access! :test
+
   def install
     # https://github.com/protocolbuffers/protobuf/issues/9947
     ENV.append_to_cflags "-DNDEBUG"
     # Avoid over-linkage to `abseil`.
     ENV.append "LDFLAGS", "-Wl,-dead_strip_dylibs" if OS.mac?
 
+    inreplace "CMakeLists.txt", "PROGRAMS scripts/et1 scripts/et1.cmd", "PROGRAMS scripts/et1"
+
     args = %W[
       -DDISABLE_VCPKG=ON
       -DDISABLE_SENTRY=ON
       -DDISABLE_TELEMETRY=ON
       -DBUILD_TESTING=OFF
-      -DBASH_COMPLETION_COMPLETIONSDIR=#{bash_completion}
-      -DOPENSSL_ROOT_DIR=#{formula_opt_prefix("openssl@4")}
       -DPYTHON_EXECUTABLE=#{which("python3")}
     ]
 
@@ -57,8 +58,8 @@ class Et < Formula
     run [opt_bin/"etserver", "--cfgfile", etc/"et.cfg"]
     keep_alive false
     working_dir HOMEBREW_PREFIX
-    error_log_path "/tmp/etserver.err"
-    log_path "/tmp/etserver.log"
+    error_log_path var/"log/et/etserver.err"
+    log_path var/"log/et/etserver.log"
     require_root true
   end
 
