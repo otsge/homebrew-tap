@@ -2,8 +2,8 @@ class Teldrive < Formula
   desc "Organizer for your telegram files"
   homepage "https://github.com/tgdrive/teldrive"
   url "https://github.com/tgdrive/teldrive.git",
-        tag:      "2.0.11",
-        revision: "bb04ecb1a375a1082f796b07c2b273890dca6910"
+        tag:      "2.0.12",
+        revision: "876f5a22cf03bacf4e694302182137de69d46c9f"
   license "MIT"
 
   bottle do
