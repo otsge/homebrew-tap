@@ -9,9 +9,9 @@ class Aria2Next < Formula
 
   bottle do
     root_url "https://ghcr.io/v2/otsge/tap"
-    sha256 cellar: :any_skip_relocation, arm64_golden_gate: "2752ddc4c27c112a5eb53b04097b1497e005a473e1b4defc0d90e64fc67a10cf"
-    sha256 cellar: :any_skip_relocation, arm64_tahoe:       "b354f941d72c02c495d3ea52d7759a4089f670fe3c139fb94db77376cffe3436"
-    sha256 cellar: :any_skip_relocation, arm64_sequoia:     "a5d8116cbdafde984008cc424cff2a078993773d182a67417bd5a1ddc4381732"
+    sha256 cellar: :any_skip_relocation, arm64_golden_gate: "d5d947861d915ee1d449410e5daff790a603f15aaff710a75a0b88707fa1ac0f"
+    sha256 cellar: :any_skip_relocation, arm64_tahoe:       "364340b4755be7820fc749d39d19c6eee4aab9f5aa94938a57e642c4480db687"
+    sha256 cellar: :any_skip_relocation, arm64_sequoia:     "75388da37fbf9c36f75e16ead6a62735e118fbb9cb6540eac7fb6ae4a8c8231f"
   end
 
   depends_on "cmake" => :build
