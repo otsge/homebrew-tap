@@ -131,7 +131,7 @@ jobs:
           pushd "$(brew --repo otsge/keg)"
           sudo cmd/brew-fuse-t-links-add
           popd
-          brew untap homebrew/cask
+          [[ -d "$(brew --repository homebrew/cask)" ]] && brew untap homebrew/cask
 
       - name: Base64-encode GITHUB_TOKEN for HOMEBREW_DOCKER_REGISTRY_TOKEN
         id: base64-encode

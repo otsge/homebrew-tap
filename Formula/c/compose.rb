@@ -7,6 +7,12 @@ class Compose < Formula
   license "MIT"
   head "https://github.com/andrew-waters/compose.git", branch: "main"
 
+  bottle do
+    root_url "https://ghcr.io/v2/otsge/tap"
+    sha256 cellar: :any_skip_relocation, arm64_golden_gate: "4c27e60d99360edcd39009634c3e646e32bb1b0af3ac3fdb83031e73bb0f6377"
+    sha256 cellar: :any_skip_relocation, arm64_tahoe:       "c90585b862f445c1acd7e85859036871265c22d520468ccfae075057677a9de1"
+  end
+
   depends_on xcode: ["26.0", :build]
   depends_on arch: :arm64
   depends_on macos: :tahoe
