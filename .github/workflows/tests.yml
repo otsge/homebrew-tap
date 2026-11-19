@@ -11,7 +11,7 @@ env:
   HOMEBREW_GITHUB_ACTIONS: 1
   HOMEBREW_NO_ANALYTICS: 1
   HOMEBREW_NO_AUTO_UPDATE: 1
-  HOMEBREW_NO_INSTALL_FROM_API: 1
+  # HOMEBREW_NO_INSTALL_FROM_API: 1
   HOMEBREW_ENFORCE_SBOM: 1
   GH_REPO: ${{ github.repository }}
   GH_NO_UPDATE_NOTIFIER: 1
@@ -72,7 +72,7 @@ jobs:
             grep -qls 'xcode: \["26.0"' "$file" && echo "xcode26=True" >> "${GITHUB_OUTPUT}" || true
             grep -qls 'class Curl' "$file" && echo "curl=True" >> "${GITHUB_OUTPUT}" || true
             grep -qls 'class.*penssl4' "$file" && echo "openssl4=True" >> "${GITHUB_OUTPUT}" || true
-            grep -qls 'depends_on :macos' "$file" || echo "no_linux=False" >> "${GITHUB_OUTPUT}"
+            grep -qls 'depends_on.*macos' "$file" || echo "no_linux=False" >> "${GITHUB_OUTPUT}"
             grep -qls 'class Ifuse' "$file" && echo "ifuse=True" >> "${GITHUB_OUTPUT}" || true
           done
 
@@ -97,8 +97,8 @@ jobs:
         id: set-up-homebrew
         uses: Homebrew/actions/setup-homebrew@main
         with:
-          core: true
-          cask: true
+          # core: true
+          # cask: true
           token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Cleanup runner
@@ -172,7 +172,7 @@ jobs:
           then
             export HOMEBREW_NO_INSTALL_FROM_API=1
             export HOMEBREW_NO_AUTO_UPDATE=1
-            rm "$(brew --repository homebrew/core)"/Formula/i/ifuse.rb
+            [[ -d "$(brew --repository homebrew/core)" ]] && rm "$(brew --repository homebrew/core)"/Formula/i/ifuse.rb
           fi
           # if [[ "${OPENSSL_4}" == "TRUE" ]]
           # then
@@ -183,7 +183,8 @@ jobs:
           if [[ "${XCODE_26}" == "TRUE" && ${{ matrix.os }} == "macos-15" ]]
           then
             brew install xcodes
-            xcodes install --latest --select
+            # xcodes install --latest --select
+            xcodes select /Applications/Xcode_26.3.app
           fi
           brew test-bot --only-formulae --skip-online-checks --skip-dependents --root-url=https://ghcr.io/v2/otsge/tap
 
@@ -203,13 +204,13 @@ jobs:
     strategy:
       matrix:
         include:
-          - os: ubuntu-24.04
+          - os: ubuntu-26.04
             container:
-              image: ghcr.io/homebrew/ubuntu24.04:main
+              image: ghcr.io/homebrew/ubuntu26.04:main
               options: --privileged
-          - os: ubuntu-24.04-arm
+          - os: ubuntu-26.04-arm
             container:
-              image: ghcr.io/homebrew/ubuntu24.04:main
+              image: ghcr.io/homebrew/ubuntu26.04:main
               options: --privileged
     runs-on: ${{ matrix.os }}
     container: ${{ fromJSON(toJSON(matrix.container)) }}

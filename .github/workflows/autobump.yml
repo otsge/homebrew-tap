@@ -15,6 +15,8 @@ on:
   schedule:
     - cron: "15 * * * *"
 
+permissions: {}
+
 env:
   HOMEBREW_DEVELOPER: 1
   HOMEBREW_NO_ANALYTICS: 1
@@ -25,7 +27,7 @@ defaults:
 
 jobs:
   autobump:
-    runs-on: macos-26
+    runs-on: ubuntu-latest
     steps:
       - name: Set up Homebrew
         id: set-up-homebrew
@@ -33,7 +35,7 @@ jobs:
         with:
           cask: false
           core: false
-          stable: false
+          # stable: false
 
       - name: Set up git
         uses: Homebrew/actions/git-user-config@main
@@ -49,10 +51,11 @@ jobs:
           HOMEBREW_GIT_COMMITTER_NAME: BrewTestBot
           HOMEBREW_GIT_COMMITTER_EMAIL: 1589480+BrewTestBot@users.noreply.github.com
           FORMULAE: ${{ inputs.formulae }}
+          TAP_NAME: ${{ steps.set-up-homebrew.outputs.tap-name }}
         run: |
           BREW_BUMP=(brew bump --debug --no-fork --open-pr --full-name --formulae --bump-synced)
           if [[ -n "${FORMULAE-}" ]]; then
             xargs -t "${BREW_BUMP[@]}" <<<"${FORMULAE}"
           else
-            "${BREW_BUMP[@]}" --tap="${GITHUB_REPOSITORY}"
+            "${BREW_BUMP[@]}" --tap="$TAP_NAME"
           fi
